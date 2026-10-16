@@ -1,19 +1,30 @@
-.PHONY: up down gen bench report clean
+.PHONY: up down smoke test1 test3 test2 clean
+
+# DSN used by all runners. Override: make test2 BENCH_DSN=postgresql://...
+BENCH_DSN ?= postgresql://postgres:postgres@localhost:5432/bench
+export BENCH_DSN
 
 up:
-	@echo "TODO Day 3: docker compose up -d"
+	docker compose up -d --wait
 
 down:
-	@echo "TODO Day 3: docker compose down -v"
+	docker compose down -v
 
-gen:
-	@echo "TODO Day 2: python bench/generate.py"
+# Tiny run to validate the harness (needs pgbench on PATH; use Linux or WSL2).
+smoke:
+	python bench/run_queries.py --smoke
+	python bench/run_ingest.py baseline --smoke
+	python bench/run_ingest.py rls --smoke
 
-bench:
-	@echo "TODO Days 4-9: python bench/run.py"
+test1:
+	python bench/run_ingest.py baseline
 
-report:
-	@echo "TODO Day 11: python bench/report.py"
+test3:
+	python bench/run_ingest.py rls
+
+# Tests 2 and 4 (plans are captured in the same run).
+test2:
+	python bench/run_queries.py
 
 clean:
-	rm -rf data/ __pycache__ .venv
+	rm -rf data/ __pycache__ bench/__pycache__ .venv

@@ -1,108 +1,123 @@
 # Benchmark Protocol: What does row-level security cost on a multi-tenant TimescaleDB hypertable?
 
-Status: DRAFT v0.1, published before any results exist. Parameters marked (TBC) are confirmed on Day 2 and frozen before official runs on Day 10.
+Status: DRAFT v0.2. Nothing has been published and no official results exist.
 Author: Adithya (captjacksparrow1109@gmail.com)
+
+Parameters are frozen before the official runs; any change after that is recorded in the Changelog.
+
+## Changelog
+
+- v0.2: ingest comparison uses INSERT, not COPY (COPY FROM is refused on RLS tables, verified on PostgreSQL 16). Query workload changed so result size is constant across tenant counts. Fixed simulated time span with derived sampling interval. Variants A to D defined. Read tests use pgbench. Tests numbered 1 to 5.
+- v0.1: initial draft.
 
 ## 1. Question
 
-For a multi-tenant telemetry workload stored in one shared hypertable, what do PostgreSQL row-level security (RLS) policies cost in:
+For a multi-tenant telemetry workload in one shared hypertable, what do PostgreSQL row-level security (RLS) policies cost in **read latency** and **write throughput** at 10, 100 and 1,000 tenants, and which policy designs keep index-driven query plans?
 
-1. sustained ingest throughput, and
-2. query latency,
+## 2. Expectations (guesses, not findings)
 
-at 10, 100 and 1,000 tenants, and which policy designs preserve index-driven query plans?
+- E-1: A session-setting policy (`tenant_id = current_setting(...)`) keeps index use and adds a small read overhead.
+- E-2: A membership-join policy can change plans and cost more, especially when the query has no explicit tenant predicate.
+- E-3: Write overhead from RLS `WITH CHECK` is small compared with INSERT overhead itself.
 
-## 2. Hypotheses (directional only)
+The results may contradict these, and that will be reported.
 
-- H1: RLS with a session-setting policy adds measurable but modest query overhead when the planner can still use the (tenant, device, time) index.
-- H2: A policy that joins to a membership table can change query plans and cost more than a session-setting policy.
-- H3: Ingest throughput is largely unaffected by RLS, since the policy applies to reads and writes through the app role; this must be confirmed for the write path in use.
+## 3. Tests
 
-These are guesses. The results may contradict them, and that will be reported.
+| # | Test | Varies | Measures |
+|---|---|---|---|
+| 1 | Write baseline (no RLS) | method (COPY, INSERT), batch size, writers | rows/s, batch latency p50/p95/p99 |
+| 2 | Read latency with and without RLS (main test) | tenants (10, 100, 1,000), variant (A to D), query (Q1, Q2), clients (1, 8) | latency p50/p95/p99, transactions/s |
+| 3 | Write throughput with and without RLS | tenants, variant (A, B, C) | rows/s, batch latency p50/p95/p99 |
+| 4 | Plans behind Test 2 | tenants, variant, query | plan node types, index use, execution time (EXPLAIN ANALYZE, BUFFERS) |
+| 5 (stretch) | Storage and chunk interval | chunk interval, compression | bytes/row, query time |
 
-## 3. Workload (synthetic drone fleet)
+Tests 1 to 4 are in scope. Test 5 runs only if Tests 1 to 4 are complete and reviewed.
 
-- Tenants own devices; devices fly missions; each device emits telemetry.
-- Fixed total row count N across all configurations (TBC, tens of millions; sized to the benchmark VM).
-- Devices per tenant: 10 (TBC). Rows per device = N / (tenants x 10).
-- Reporting interval: 1 sample per second per device in simulated time; timestamps are generated, not real time.
-- Columns: time, tenant_id, device_id, mission_id, lat, lon, alt_m, battery_pct, temp_c, status, odometer_m (monotonic counter).
-- Generator: Python 3 with psycopg3 COPY; seeded for reproducibility.
+## 4. Data
 
-## 4. Schema
+Synthetic drone fleet. Tenants own devices, devices fly missions, missions emit telemetry.
 
-- Tables: tenants, devices, missions, telemetry (hypertable on time).
-- Indexes: (tenant_id, device_id, time DESC) and (mission_id, time).
-- Chunk interval fixed across all runs (TBC). No compression, retention or continuous aggregates in E1 to E3.
-- Queries run as a non-owner, non-superuser role. The table owner and superusers bypass RLS unless FORCE ROW LEVEL SECURITY is set, so every run verifies RLS is actually active before measuring.
+- Total rows N (Tests 2, 4): 20,000,000 (frozen). Tests 1 and 3 insert 1,000,000 rows per run into an empty table.
+- Devices per tenant: 10. Tenant counts: 10, 100, 1,000 (so 100, 1,000, 10,000 devices).
+- Simulated time span: 7 days, identical for every tenant count. The per-device sampling interval is derived (span / rows per device), so chunking is comparable across configurations.
+- Mission length: 600 samples. Late events: 1% of rows back-dated by up to 300 s. Duplicate deliveries: 0.5% of rows.
+- Seed 42. Rows are produced time-major. The generator is `bench/generate.py`.
+- Schema: `bench/schema.sql`. Hypertable on `time`, chunk interval 1 day (frozen). Indexes `(tenant_id, device_id, time DESC)` and `(mission_id, time)`. No compression, retention or continuous aggregates in Tests 1 to 4.
+- Data is loaded as the table owner with COPY, then `VACUUM (ANALYZE)` and `CHECKPOINT`.
 
-## 5. Experiments
+## 5. Variants
 
-### E1: ingest baseline (no RLS, single shared table)
-Vary batch size (TBC list) and writer count (TBC list). Compare COPY with multi-row INSERT.
+All measurements run as a non-owner, non-superuser role (`bench_app`). The table owner and superusers bypass RLS, so a run as `postgres` would measure nothing.
 
-### E2: tenant model cost
-For 10, 100 and 1,000 tenants at the same N:
-- Variant A: no RLS.
-- Variant B: RLS enabled, session-setting policy.
+| Variant | RLS policy | Query text | Isolation comes from |
+|---|---|---|---|
+| A | none | has `tenant_id = :t AND ...` | the query |
+| B | session setting | has no tenant predicate | RLS |
+| C | membership join | has no tenant predicate | RLS |
+| D | session setting | has the explicit predicate too | both |
 
-Measure ingest and the two queries below.
+Every query transaction first sets `app.tenant_id` and `app.user_id` in all variants, including A, so the per-request overhead is identical and only the policy and predicate differ. Before each variant runs, the harness checks that the RLS state is as claimed and that tenant 1 sees none of tenant 2's rows.
 
-### E3: policy design
-- Policy 1: `tenant_id = current_setting('app.tenant_id')::bigint`.
-- Policy 2: `tenant_id IN (SELECT tenant_id FROM memberships WHERE user_id = current_setting('app.user_id')::bigint)`.
+## 6. Queries (Tests 2, 4)
 
-Capture `EXPLAIN (ANALYZE, BUFFERS)` for both queries and report whether index scans are preserved.
+- **Q1:** the latest 100 readings for one device (`ORDER BY time DESC LIMIT 100`). Fixed result size.
+- **Q2:** the full timeline of one mission (about 600 rows). Fixed result size; only full missions are sampled.
 
-### E4 (stretch): chunk interval and compression
-Storage per row and query time. Only if E1 to E3 are complete.
+Targets are chosen at random per transaction by pgbench with a fixed seed; the same seed is used for every variant within a repetition. Scripts are in `bench/queries/`.
 
-## 6. Queries
+## 7. Write workload (Tests 1, 3)
 
-- Q1: last 1 hour of telemetry for one device.
-- Q2: full mission timeline for one mission (ordered by time).
+- Writers are separate processes with their own connections. Batches are built and encoded before the clock starts.
+- Test 1: tenants = 100, RLS off, methods COPY and INSERT, batch sizes 500, 2,000, 10,000, writers 1, 4, 8.
+- Test 3: INSERT only (`INSERT ... SELECT FROM unnest(...)`), batch size 1,000, 4 writers, per-tenant batches, tenants 10, 100, 1,000, variants A, B, C. Each batch sets the tenant context first, in all variants.
+- Each run starts from an empty telemetry table (TRUNCATE plus CHECKPOINT) and is committed per batch (`synchronous_commit = on`). Steady-state ingest into a large existing table is out of scope.
+- After each run the table row count must equal the rows sent, or the run fails.
 
-Each query type runs 200 times per run with randomly chosen targets (seeded).
+## 8. Metrics
 
-## 7. Metrics (every run)
+Latency p50/p95/p99 and mean, transactions/s (reads); rows/s and batch latency p50/p95/p99 (writes); bytes per row on disk; plan node types and execution time; background `vmstat` log for CPU and steal time.
 
-- Sustained ingest rows/s.
-- Insert batch latency: p50, p95, p99.
-- Query latency: p50, p95, p99.
-- CPU and IO utilisation, and CPU steal time.
-- Bytes per row on disk (table plus indexes).
+## 9. Method
 
-## 8. Method
+- Per configuration: 6 repetitions; the first is a warm-up and is discarded, leaving 5. Report median and min to max. Never the best run.
+- Variant order is rotated each repetition so drift does not favour one variant.
+- Read tests: 20 s per pgbench run, 1 and 8 clients, `CHECKPOINT` before each run.
+- Data is warm and in memory (it fits in RAM on the benchmark VM; confirmed by dataset size in `results/datasets.jsonl`). A cold-cache run is optional and reported separately.
+- Fixed PostgreSQL settings, published in `docker-compose.yml` and recorded in `results/environment.json`.
+- Every public number appears in `results/CLAIMS.md` with a run tag and commit.
 
-- Fresh database per run; identical postgresql.conf across runs (published).
-- 1 warm-up run discarded, then at least 5 measured runs per configuration.
-- Report median and spread (min to max). Never report the best run.
-- Report whether query numbers are warm cache; add one cold-cache run after a restart where feasible.
-- All raw outputs saved under results/ as JSON. Every number in public text maps to a run ID and commit in results/CLAIMS.md.
-
-## 9. Environment (fill in on Day 10)
+## 10. Environment (completed before the official runs)
 
 | Item | Value |
 |---|---|
-| Provider / instance type | TBC |
-| vCPU (dedicated or shared) | TBC |
-| RAM | TBC |
-| Disk | TBC |
+| Provider / instance | TBC |
+| vCPU (dedicated) / RAM / disk | TBC |
 | OS | TBC |
-| PostgreSQL version | TBC |
-| TimescaleDB version | TBC |
-| Generator host | Same VM (limitation) |
+| PostgreSQL / TimescaleDB versions | TBC (captured automatically) |
+| Docker image digest | TBC |
+| Harness host | same VM (limitation) |
 
-## 10. Out of scope
+Numbers from laptops, WSL or Docker Desktop are for development only and are not published.
 
-Schema-per-tenant and database-per-tenant, replication, connection pooling (direct connections are used), continuous aggregates, retention, multi-node setups, and any managed-service comparison.
+## 11. Execution plan (3 days)
 
-## 11. Limitations (known in advance)
+- Day 1: harness smoke run on the VM, Test 1, then Test 3.
+- Day 2: Test 2 and Test 4 (three dataset loads, about 290 pgbench runs).
+- Day 3: re-run anything that failed review, freeze data, write up.
 
-- Synthetic data; real fleets have burstier and more skewed traffic.
-- Single VM, with the generator co-located.
-- Results apply to the tested versions and configuration only.
+## 12. Out of scope
 
-## 12. Feedback
+Schema-per-tenant and database-per-tenant, replication, connection pooling, continuous aggregates, retention, compression (except Test 5), multi-node, managed-service comparisons, skewed tenant sizes.
 
-If you see a flaw in this protocol, please open an issue before the results are published.
+## 13. Known limitations
+
+- Synthetic uniform data; real fleets are bursty and skewed.
+- Single VM, with the harness on the same machine.
+- Writes go into an empty table, not a large existing one.
+- Results apply to the tested versions and settings only.
+- The two query shapes cover common dashboard reads, not every access pattern.
+
+## 14. Feedback
+
+If you see a flaw in this protocol, please open an issue before results are published.

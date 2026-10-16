@@ -1,0 +1,37 @@
+# TimescaleDB for the benchmark. Defaults suit a laptop; set the PG_* variables
+# (for example in a .env file) for the benchmark VM. Settings are recorded in
+# results/environment.json on every run.
+#
+# After the first pull, pin the image by digest and record it in PROTOCOL.md:
+#   docker image inspect --format "{{index .RepoDigests 0}}" timescale/timescaledb:latest-pg16
+services:
+  tsdb:
+    image: ${TSDB_IMAGE:-timescale/timescaledb:latest-pg16}
+    container_name: tsdb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: bench
+    shm_size: 1gb
+    volumes:
+      - tsdb_data:/var/lib/postgresql/data
+    command: >
+      postgres
+      -c shared_buffers=${PG_SHARED_BUFFERS:-1GB}
+      -c effective_cache_size=${PG_EFFECTIVE_CACHE_SIZE:-3GB}
+      -c work_mem=${PG_WORK_MEM:-32MB}
+      -c maintenance_work_mem=${PG_MAINT_WORK_MEM:-512MB}
+      -c max_wal_size=${PG_MAX_WAL_SIZE:-4GB}
+      -c checkpoint_timeout=15min
+      -c synchronous_commit=on
+      -c max_connections=100
+      -c timescaledb.telemetry_level=off
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bench"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  tsdb_data:
