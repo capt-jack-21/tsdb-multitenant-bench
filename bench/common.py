@@ -29,6 +29,8 @@ VARIANTS = {
           "desc": "RLS membership-join policy; query has no tenant predicate"},
     "D": {"policy": "rls_session.sql", "queries": "a",
           "desc": "RLS session-setting policy plus explicit tenant predicate"},
+    "E": {"policy": "rls_membership_fn.sql", "queries": "rls",
+          "desc": "RLS membership policy via STABLE array function (index-friendly); no tenant predicate"},
 }
 
 

@@ -5,7 +5,7 @@
 | `schema.sql` | tables, hypertable, indexes, `bench_app` role (destructive) |
 | `rls_off.sql`, `rls_session.sql`, `rls_membership.sql` | the three policy states |
 | `generate.py` | seeded synthetic fleet generator and loader (COPY, as owner) |
-| `queries/*.sql` | pgbench scripts: `q1`/`q2` x `a` (explicit tenant predicate) / `rls` (policy only) |
+| `queries/*.sql` | pgbench scripts: `q1`/`q2`/`q3` x `a` (explicit tenant predicate) / `rls` (policy only) |
 | `run_queries.py` | Tests 2 and 4: pgbench latency per variant, plus EXPLAIN plans |
 | `run_ingest.py` | Tests 1 and 3: write throughput (`baseline` and `rls`) |
 | `common.py` | shared helpers: environment capture, RLS checks, summaries |

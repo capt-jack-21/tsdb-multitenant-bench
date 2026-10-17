@@ -26,6 +26,7 @@ from pathlib import Path
 import psycopg
 
 import common as C
+import generate as gen
 
 HERE = C.HERE
 
@@ -39,11 +40,14 @@ def parse_args():
     p.add_argument("--rows", type=int, default=20_000_000)
     p.add_argument("--span-days", type=float, default=7.0)
     p.add_argument("--mission-len", type=int, default=600)
-    p.add_argument("--variants", default="A,B,C,D")
-    p.add_argument("--queries", default="q1,q2")
+    p.add_argument("--variants", default="A,B,C,D,E")
+    p.add_argument("--queries", default="q1,q2,q3")
     p.add_argument("--clients", default="1,8")
     p.add_argument("--duration", type=int, default=20, help="seconds per pgbench run")
     p.add_argument("--reps", type=int, default=6, help="repetitions per config; the first is a warm-up")
+    p.add_argument("--protocol", choices=["simple", "prepared"], default="simple",
+                   help="pgbench query protocol. prepared sends the SETs as separate statements "
+                        "(prepared mode cannot batch them), so compare variants only within one protocol")
     p.add_argument("--threads", type=int, default=4, help="max pgbench threads")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--skip-load", action="store_true", help="reuse the data already loaded (single tenant count only)")
@@ -78,17 +82,22 @@ def load_dataset(a, dsn, tenants):
     return stats
 
 
-def sample_sql(script, t, dev, mid):
+def since_epoch(a):
+    """Start of the last 24 h of simulated data (q3's time window), as epoch seconds."""
+    return int(gen.EPOCH.timestamp() + (a.span_days - 1.0) * 86400)
+
+
+def sample_sql(script, t, dev, mid, since):
     """The SELECT of a pgbench script with fixed literals, for EXPLAIN."""
     for line in script.read_text().splitlines():
         if line.startswith("SELECT"):
             return (line.rstrip(";").replace(":dev", str(dev)).replace(":mid", str(mid))
-                    .replace(":t", str(t)))
+                    .replace(":since", str(since)).replace(":t", str(t)))
     raise RuntimeError(f"no SELECT in {script}")
 
 
-def capture_plan(dsn, variant, qname, script, results_dir, tenants, dpt, tag):
-    sql = sample_sql(script, 1, 1, 1)
+def capture_plan(dsn, variant, qname, script, results_dir, tenants, since, tag):
+    sql = sample_sql(script, 1, 1, 1, since)
     with psycopg.connect(dsn, autocommit=True) as c:
         c.execute(f"SET ROLE {C.APP_ROLE}")
         c.execute("SET app.tenant_id = '1'")
@@ -103,12 +112,24 @@ def capture_plan(dsn, variant, qname, script, results_dir, tenants, dpt, tag):
     return info
 
 
+def _unbatched(script, logdir):
+    """Prepared mode cannot batch statements, nor parameterise SET. Rewrite the context SETs as
+    separate set_config() calls (one round trip each); the SELECT is unchanged."""
+    text = re.sub(r"SET (app\.\w+) = (:\w+) \\;\n", r"SELECT set_config('\1', (\2)::text, false);\n",
+                  script.read_text())
+    out = logdir.parent / f"unbatched_{script.name}"
+    out.write_text(text)
+    return out
+
+
 def run_pgbench(a, dsn, script, tenants, mpd, mpf, clients, rep, logdir):
     for f in logdir.glob("pgb*"):
         f.unlink()
-    cmd = ["pgbench", "-n", "-f", str(script), "-c", str(clients), "-j", str(min(clients, a.threads)),
+    if a.protocol == "prepared":  # prepared mode cannot batch statements: split the \; chains
+        script = _unbatched(script, logdir)
+    cmd = ["pgbench", "-n", "-M", a.protocol, "-f", str(script), "-c", str(clients), "-j", str(min(clients, a.threads)),
            "-T", str(a.duration), "--random-seed", str(a.seed + rep),
-           "-D", f"tenants={tenants}", "-D", f"dpt={a.dpt}", "-D", f"mpd={mpd}", "-D", f"mpf={mpf}",
+           "-D", f"tenants={tenants}", "-D", f"dpt={a.dpt}", "-D", f"mpd={mpd}", "-D", f"mpf={mpf}", "-D", f"since={since_epoch(a)}",
            "-l", f"--log-prefix={logdir / 'pgb'}", dsn]
     env = dict(os.environ, PGOPTIONS=f"-c role={C.APP_ROLE}")
     out = subprocess.run(cmd, capture_output=True, text=True, env=env)
@@ -176,7 +197,7 @@ def main():
                     for q in queries:
                         script = HERE / "queries" / f"{q}_{C.VARIANTS[variant]['queries']}.sql"
                         if rep == 0:
-                            info = capture_plan(dsn, variant, q, script, results_dir, tenants, a.dpt, tag)
+                            info = capture_plan(dsn, variant, q, script, results_dir, tenants, since_epoch(a), tag)
                             print(f"  plan {variant}/{q}: telemetry scans = {', '.join(info['telemetry_scans']) or 'none'}; "
                                   f"chunks scanned = {info['chunks_scanned']}; indexes = {', '.join(info['indexes_used']) or 'none'}", flush=True)
                         for clients in clients_list:
@@ -185,14 +206,14 @@ def main():
                             res = run_pgbench(a, dsn, script, tenants, mpd, mpf, clients, rep, logdir)
                             C.append_jsonl(raw, {
                                 "tag": tag, "time": C.utcnow(), "tenants": tenants, "variant": variant,
-                                "query": q, "clients": clients, "rep": rep, "warmup": rep == 0, **res})
+                                "query": q, "clients": clients, "protocol": a.protocol, "rep": rep, "warmup": rep == 0, **res})
                             print(f"  rep{rep}{' (warm-up)' if rep == 0 else ''} {variant} {q} c={clients}: "
                                   f"p50={res['p50_ms']:.2f} p95={res['p95_ms']:.2f} p99={res['p99_ms']:.2f} ms, "
                                   f"{res['tps']:.0f} tps", flush=True)
     finally:
         C.stop_sysstat(sysstat)
 
-    summary = C.summarize(raw, ["tenants", "variant", "query", "clients"],
+    summary = C.summarize(raw, ["tenants", "variant", "query", "clients", "protocol"],
                           ["p50_ms", "p95_ms", "p99_ms", "tps"], results_dir / "queries_summary.csv")
     print(f"\nwrote {len(summary)} rows to {results_dir / 'queries_summary.csv'}")
 

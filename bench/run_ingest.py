@@ -52,7 +52,7 @@ def parse_args():
     p.add_argument("--methods", help="baseline default copy,insert; rls is insert only")
     p.add_argument("--batch-sizes", help="baseline default 500,2000,10000; rls default 1000")
     p.add_argument("--writers", help="baseline default 1,4,8; rls default 4")
-    p.add_argument("--variants", default="A,B,C", help="rls test only")
+    p.add_argument("--variants", default="A,B,C,E", help="rls test only")
     p.add_argument("--reps", type=int, default=6, help="the first is a warm-up")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--results-dir", default=str(C.ROOT / "results"))
