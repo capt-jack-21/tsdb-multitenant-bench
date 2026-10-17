@@ -52,6 +52,8 @@ def parse_args():
     a = p.parse_args()
     if a.smoke:
         a.tenants, a.rows, a.duration, a.reps, a.clients = "10,20", 200_000, 3, 2, "1,2"
+        if a.results_dir == str(C.ROOT / "results"):
+            a.results_dir = str(C.ROOT / "results" / "smoke")
     return a
 
 
@@ -85,14 +87,6 @@ def sample_sql(script, t, dev, mid):
     raise RuntimeError(f"no SELECT in {script}")
 
 
-def node_types(plan_node, acc=None):
-    acc = set() if acc is None else acc
-    acc.add(plan_node["Node Type"])
-    for child in plan_node.get("Plans", []):
-        node_types(child, acc)
-    return acc
-
-
 def capture_plan(dsn, variant, qname, script, results_dir, tenants, dpt, tag):
     sql = sample_sql(script, 1, 1, 1)
     with psycopg.connect(dsn, autocommit=True) as c:
@@ -103,13 +97,10 @@ def capture_plan(dsn, variant, qname, script, results_dir, tenants, dpt, tag):
     d = results_dir / "plans"
     d.mkdir(parents=True, exist_ok=True)
     (d / f"{tag}_t{tenants}_{variant}_{qname}.json").write_text(json.dumps(plan, indent=1))
-    nodes = sorted(node_types(plan[0]["Plan"]))
+    info = C.analyze_plan(plan)
     C.append_jsonl(results_dir / "plans_summary.jsonl", {
-        "tenants": tenants, "variant": variant, "query": qname, "nodes": nodes,
-        "seq_scan": any("Seq Scan" in n for n in nodes),
-        "index_used": any("Index" in n for n in nodes),
-        "execution_ms": plan[0].get("Execution Time"), "warmup": False})
-    return nodes
+        "tag": tag, "tenants": tenants, "variant": variant, "query": qname, **info})
+    return info
 
 
 def run_pgbench(a, dsn, script, tenants, mpd, mpf, clients, rep, logdir):
@@ -185,8 +176,9 @@ def main():
                     for q in queries:
                         script = HERE / "queries" / f"{q}_{C.VARIANTS[variant]['queries']}.sql"
                         if rep == 0:
-                            nodes = capture_plan(dsn, variant, q, script, results_dir, tenants, a.dpt, tag)
-                            print(f"  plan {variant}/{q}: {', '.join(nodes)}", flush=True)
+                            info = capture_plan(dsn, variant, q, script, results_dir, tenants, a.dpt, tag)
+                            print(f"  plan {variant}/{q}: telemetry scans = {', '.join(info['telemetry_scans']) or 'none'}; "
+                                  f"chunks visited = {info['chunks_visited']}", flush=True)
                         for clients in clients_list:
                             with psycopg.connect(dsn, autocommit=True) as c:
                                 c.execute("CHECKPOINT")

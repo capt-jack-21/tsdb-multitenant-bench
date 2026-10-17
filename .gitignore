@@ -5,3 +5,5 @@ data/
 *.csv
 .env
 .DS_Store
+results/smoke/
+results/dev/

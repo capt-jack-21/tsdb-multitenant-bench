@@ -69,6 +69,8 @@ def parse_args():
         a.batch_sizes = a.batch_sizes[:1]
         a.writers = a.writers[:2]
         a.tenants = a.tenants[:2] if not base else [10]
+        if a.results_dir == str(C.ROOT / "results"):
+            a.results_dir = str(C.ROOT / "results" / "smoke")
     if a.test == "rls" and "copy" in a.methods:
         sys.exit("COPY FROM is not supported on RLS tables; the rls test is INSERT only")
     return a

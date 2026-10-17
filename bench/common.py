@@ -4,6 +4,7 @@ import json
 import math
 import os
 import platform
+import re
 import shutil
 import statistics
 import subprocess
@@ -133,6 +134,47 @@ def dataset_stats(dsn):
         except psycopg.Error:
             size = c.execute("SELECT pg_total_relation_size('telemetry')").fetchone()[0]
     return {"rows": rows, "total_bytes": size, "bytes_per_row": round(size / rows, 1) if rows else None}
+
+
+_TELEMETRY_REL = re.compile(r"^(telemetry|_hyper_\d+_\d+_chunk)$")
+
+
+def _walk_plan(obj, out):
+    """Visit every plan node, whichever key nests it ('Plans', or 'Plan' under custom scans)."""
+    if isinstance(obj, dict):
+        if "Node Type" in obj:
+            out.append(obj)
+        for v in obj.values():
+            _walk_plan(v, out)
+    elif isinstance(obj, list):
+        for v in obj:
+            _walk_plan(v, out)
+
+
+def analyze_plan(explain_json):
+    """Summarise an EXPLAIN (FORMAT JSON) result: node labels, scans on telemetry, chunks visited."""
+    nodes = []
+    _walk_plan(explain_json, nodes)
+    labels = set()
+    scans = set()
+    chunks = 0
+    for n in nodes:
+        label = n["Node Type"]
+        if n.get("Custom Plan Provider"):
+            label += f" ({n['Custom Plan Provider']})"
+        labels.add(label)
+        chunks += n.get("Chunks Visited", 0)
+        if _TELEMETRY_REL.match(n.get("Relation Name", "")) and "Scan" in n["Node Type"]:
+            scans.add(n["Node Type"])
+    top = explain_json[0] if isinstance(explain_json, list) else explain_json
+    return {
+        "nodes": sorted(labels),
+        "telemetry_scans": sorted(scans),
+        "telemetry_seq_scan": any("Seq Scan" in s for s in scans),
+        "telemetry_index_scan": any("Index" in s for s in scans),
+        "chunks_visited": chunks,
+        "execution_ms": top.get("Execution Time"),
+    }
 
 
 def start_sysstat(path):
