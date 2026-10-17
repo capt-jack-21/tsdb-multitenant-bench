@@ -57,7 +57,7 @@ All measurements run as a non-owner, non-superuser role (`bench_app`). The table
 | B | session setting | has no tenant predicate | RLS |
 | C | membership join | has no tenant predicate | RLS |
 | D | session setting | has the explicit predicate too | both |
-| E | membership via a STABLE array function: `tenant_id = ANY (app_user_tenants())` | has no tenant predicate | RLS |
+| E | membership via a STABLE array function: `tenant_id = ANY ((SELECT app_user_tenants())::integer[])` (the `SELECT` wrapper makes the function run once per query instead of per row) | has no tenant predicate | RLS |
 
 C is the obvious way to write a membership policy and hides the tenant from the planner (`IN (subquery)` becomes a per-row filter). E carries the same logic in a form the planner can use as an index condition. Both are reported so the post can show what the naive form costs and what rewriting it recovers.
 
