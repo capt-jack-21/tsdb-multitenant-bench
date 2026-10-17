@@ -178,7 +178,7 @@ def main():
                         if rep == 0:
                             info = capture_plan(dsn, variant, q, script, results_dir, tenants, a.dpt, tag)
                             print(f"  plan {variant}/{q}: telemetry scans = {', '.join(info['telemetry_scans']) or 'none'}; "
-                                  f"chunks visited = {info['chunks_visited']}", flush=True)
+                                  f"chunks scanned = {info['chunks_scanned']}; indexes = {', '.join(info['indexes_used']) or 'none'}", flush=True)
                         for clients in clients_list:
                             with psycopg.connect(dsn, autocommit=True) as c:
                                 c.execute("CHECKPOINT")

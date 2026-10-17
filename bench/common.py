@@ -158,12 +158,18 @@ def analyze_plan(explain_json):
     labels = set()
     scans = set()
     chunks = 0
+    chunk_rels = set()
+    indexes = set()
     for n in nodes:
         label = n["Node Type"]
         if n.get("Custom Plan Provider"):
             label += f" ({n['Custom Plan Provider']})"
         labels.add(label)
         chunks += n.get("Chunks Visited", 0)
+        if n.get("Index Name"):
+            indexes.add(n["Index Name"])
+        if re.match(r"^_hyper_\d+_\d+_chunk$", n.get("Relation Name", "")):
+            chunk_rels.add(n["Relation Name"])
         if _TELEMETRY_REL.match(n.get("Relation Name", "")) and "Scan" in n["Node Type"]:
             scans.add(n["Node Type"])
     top = explain_json[0] if isinstance(explain_json, list) else explain_json
@@ -172,7 +178,9 @@ def analyze_plan(explain_json):
         "telemetry_scans": sorted(scans),
         "telemetry_seq_scan": any("Seq Scan" in s for s in scans),
         "telemetry_index_scan": any("Index" in s for s in scans),
+        "indexes_used": sorted(indexes),
         "chunks_visited": chunks,
+        "chunks_scanned": len(chunk_rels),
         "execution_ms": top.get("Execution Time"),
     }
 
