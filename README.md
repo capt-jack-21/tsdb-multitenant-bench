@@ -36,7 +36,7 @@ docs/         # diagrams
 
 ## Licence
 
-Code: Apache-2.0 (add the official LICENSE text from the Apache site or GitHub's licence picker). Articles, charts and result data: CC BY 4.0.
+Code: Apache-2.0. Articles, charts and result data: CC BY 4.0.
 
 ## Contact
 
