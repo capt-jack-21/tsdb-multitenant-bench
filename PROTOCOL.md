@@ -89,7 +89,7 @@ Latency p50/p95/p99 and mean, transactions/s (reads); rows/s and batch latency p
 
 - Per configuration: 6 repetitions; the first is a warm-up and is discarded, leaving 5. Report median and min to max. Never the best run.
 - Variant order is rotated each repetition so drift does not favour one variant.
-- Read tests: 20 s per pgbench run, 1 and 8 clients, `CHECKPOINT` before each run.
+- Read tests: 20 s per pgbench run, `CHECKPOINT` before each run. Clients are scaled to the machine: 1 and 8 on 4 vCPUs, 1 and 2 on 2 vCPUs (pgbench and Postgres share the cores). Writers likewise: 1, 4, 8 on 4 vCPUs; 1, 2, 4 on 2 vCPUs (RLS write test: 4 and 2 writers).
 - Data is warm and in memory (it fits in RAM on the benchmark VM; confirmed by dataset size in `results/datasets.jsonl`). A cold-cache run is optional and reported separately.
 - Fixed PostgreSQL settings, published in `docker-compose.yml` and recorded in `results/environment.json`.
 - Every public number appears in `results/CLAIMS.md` with a run tag and commit.
