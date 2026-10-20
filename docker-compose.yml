@@ -9,7 +9,10 @@ services:
     image: ${TSDB_IMAGE:-timescale/timescaledb:latest-pg16}
     container_name: tsdb
     ports:
-      - "5432:5432"
+      # Bound to localhost on purpose. Publishing 5432 on all interfaces got a benchmark VM
+      # hijacked within hours (bots scan for open Postgres). Set PG_BIND=0.0.0.0 only on a
+      # private machine, e.g. Docker Desktop reached from WSL, never on a public server.
+      - "${PG_BIND:-127.0.0.1}:5432:5432"
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: bench

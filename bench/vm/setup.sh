@@ -23,17 +23,24 @@ else                               # 8 GB class: the 20M-row dataset (about 4 GB
   SB=2GB; EC=5GB; MW=512MB; WAL=4GB
 fi
 echo "RAM ${MEM_GB} GB -> shared_buffers=$SB effective_cache_size=$EC"
+# Random password and localhost-only port: an exposed Postgres with a default password is
+# compromised within hours (COPY ... FROM PROGRAM miner droppers). Never publish 5432.
+PGPASS=$(openssl rand -hex 16)
+umask 077
 cat > .env <<ENV
-POSTGRES_PASSWORD=postgres
+POSTGRES_PASSWORD=$PGPASS
+PG_BIND=127.0.0.1
 PG_SHARED_BUFFERS=$SB
 PG_EFFECTIVE_CACHE_SIZE=$EC
 PG_WORK_MEM=32MB
 PG_MAINT_WORK_MEM=$MW
 PG_MAX_WAL_SIZE=$WAL
 ENV
+umask 022
 
 docker compose pull
 docker compose up -d --wait
+ss -ltn | grep -q "127.0.0.1:5432" || { echo "ERROR: 5432 is not bound to localhost only"; exit 1; }
 
 mkdir -p results/official
 {

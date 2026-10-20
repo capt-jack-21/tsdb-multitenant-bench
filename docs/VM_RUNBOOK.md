@@ -48,3 +48,17 @@ scp -r root@<server-ip>:~/tsdb-multitenant-bench/logs .\logs
 ## 5. If something fails halfway
 
 Re-run only the failed step, for example `.venv/bin/python bench/run_queries.py --results-dir results/official`. Results append to the same files, so delete the partial files for that test first. Never mix runs from different VMs in one summary.
+
+## Security: never expose the database port
+
+A first official run on a public VM was hijacked: the Docker container published Postgres on
+`0.0.0.0:5432` with a default password. Within hours a bot logged in, ran `COPY ... FROM PROGRAM`
+to download a cryptominer, and locked the `postgres` role. The run failed mid-way and every result
+from that server was discarded.
+
+- `docker-compose.yml` binds 5432 to `127.0.0.1` (override with `PG_BIND` only on a private machine).
+- `setup.sh` generates a random `POSTGRES_PASSWORD` into `.env` and fails if 5432 is not localhost-only.
+- Docker publishes ports around `ufw`, so a firewall rule alone is not enough.
+- `run_all.sh` checks the database before every step and stops on the first failure.
+- If results look odd or the load is high with nothing running, check `docker compose logs tsdb` for
+  `COPY ... FROM PROGRAM` before trusting anything. Rebuild with `docker compose down -v`.

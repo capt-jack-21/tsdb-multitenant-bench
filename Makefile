@@ -1,4 +1,4 @@
-.PHONY: up down smoke test1 test3 test2 clean
+.PHONY: up down smoke test1 test3 test2 report clean
 
 # DSN used by all runners. Override: make test2 BENCH_DSN=postgresql://...
 BENCH_DSN ?= postgresql://postgres:postgres@localhost:5432/bench
@@ -25,6 +25,10 @@ test3:
 # Tests 2 and 4 (plans are captured in the same run).
 test2:
 	python bench/run_queries.py
+
+# Build results/official/report.md and charts (pip install -r bench/requirements-report.txt first).
+report:
+	python bench/report.py --results-dir results/official --prepared-dir results/official_prepared
 
 clean:
 	rm -rf data/ __pycache__ bench/__pycache__ .venv
