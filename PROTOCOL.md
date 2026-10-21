@@ -1,12 +1,13 @@
 # Benchmark Protocol: What does row-level security cost on a multi-tenant TimescaleDB hypertable?
 
-Status: DRAFT v0.2. Nothing has been published and no official results exist.
+Status: v0.4. The official run completed on 2026-10-20 (results in `results/official/`, written report in `REPORT.md`). Nothing has been published yet.
 Author: Adithya (captjacksparrow1109@gmail.com)
 
 Parameters are frozen before the official runs; any change after that is recorded in the Changelog.
 
 ## Changelog
 
+- v0.4: official run completed. Concurrency scaled to the machine (1 and 2 clients, 2 writers for the RLS write test) because the VM has 2 vCPU. Database bound to localhost with a random password after the first attempt on a public port was compromised and its results discarded. Environment table (section 10) filled in.
 - v0.3: added variant E (index-friendly membership policy), query Q3 (device, last 24 h, time-bounded), and an optional prepared-statement protocol run. Added after dev-scale runs showed variant C's plan depends on how the policy is written.
 - v0.2: ingest comparison uses INSERT, not COPY (COPY FROM is refused on RLS tables, verified on PostgreSQL 16). Query workload changed so result size is constant across tenant counts. Fixed simulated time span with derived sampling interval. Variants A to D defined. Read tests use pgbench. Tests numbered 1 to 5.
 - v0.1: initial draft.
@@ -94,16 +95,22 @@ Latency p50/p95/p99 and mean, transactions/s (reads); rows/s and batch latency p
 - Fixed PostgreSQL settings, published in `docker-compose.yml` and recorded in `results/environment.json`.
 - Every public number appears in `results/CLAIMS.md` with a run tag and commit.
 
-## 10. Environment (completed before the official runs)
+## 10. Environment (official run, 2026-10-20)
 
 | Item | Value |
 |---|---|
-| Provider / instance | TBC |
-| vCPU (dedicated) / RAM / disk | TBC |
-| OS | TBC |
-| PostgreSQL / TimescaleDB versions | TBC (captured automatically) |
-| Docker image digest | TBC |
+| Provider / instance | Shared-vCPU KVM VPS (MilesWeb) |
+| vCPU / RAM / disk | 2 vCPU (AMD EPYC 7C13) / 7.7 GiB / 99 GB |
+| OS / kernel | Ubuntu 26.04 LTS, Linux 7.0.0-22-generic |
+| PostgreSQL / TimescaleDB | 16.15 (musl container) / 2.30.2 |
+| Docker image digest | `timescale/timescaledb@sha256:6f139d56042989bd35f50ba5986e492cd32e35cc6778c50be2659add298dc09f` |
+| Server settings | shared_buffers 2GB, effective_cache_size 5GB, work_mem 32MB, maintenance_work_mem 512MB, max_wal_size 4GB, synchronous_commit on, jit off |
+| Client | pgbench 18.6, Python 3.14.4 |
 | Harness host | same VM (limitation) |
+| CPU steal | mean 0.01%, max 1% (vmstat, about 15,000 samples) |
+| Repository commit | `4473f22e89110659c8f2223ad97630f67f3e7e2b` |
+
+Run tags: Test 2 and 4 `20261020-141827`, Test 3 `20261020-173601`, Test 1 `20261020-175648`, prepared subset `20261020-182402`.
 
 Numbers from laptops, WSL or Docker Desktop are for development only and are not published.
 
@@ -120,7 +127,9 @@ Schema-per-tenant and database-per-tenant, replication, connection pooling, cont
 ## 13. Known limitations
 
 - Synthetic uniform data; real fleets are bursty and skewed.
-- Single VM, with the harness on the same machine.
+- Single shared-vCPU VM with 2 vCPU, with the harness on the same machine; at most 2 concurrent clients.
+- Only 7 one-day chunks; RLS planning cost may grow with chunk count (not tested).
+- The dataset (about 4 GB) mostly fits in memory.
 - Writes go into an empty table, not a large existing one.
 - Results apply to the tested versions and settings only.
 - The two query shapes cover common dashboard reads, not every access pattern.
