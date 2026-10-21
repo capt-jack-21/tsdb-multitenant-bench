@@ -1,0 +1,81 @@
+PostgreSQL: PostgreSQL 16.15 on x86_64-pc-linux-musl | TimescaleDB: 2.30.2
+
+=== tenants=10 ===
+  rep0 (warm-up) A insert bs=1000 w=2: 68,074 rows/s, batch p50=27.5 p95=35.4 p99=57.3 ms
+  rep0 (warm-up) B insert bs=1000 w=2: 66,364 rows/s, batch p50=27.8 p95=36.4 p99=66.5 ms
+  rep0 (warm-up) C insert bs=1000 w=2: 66,255 rows/s, batch p50=28.0 p95=41.1 p99=70.8 ms
+  rep0 (warm-up) E insert bs=1000 w=2: 67,875 rows/s, batch p50=28.1 p95=34.9 p99=59.2 ms
+  rep1 B insert bs=1000 w=2: 66,623 rows/s, batch p50=28.3 p95=37.2 p99=61.8 ms
+  rep1 C insert bs=1000 w=2: 67,387 rows/s, batch p50=27.7 p95=39.6 p99=71.0 ms
+  rep1 E insert bs=1000 w=2: 66,595 rows/s, batch p50=28.2 p95=36.1 p99=60.8 ms
+  rep1 A insert bs=1000 w=2: 68,053 rows/s, batch p50=27.4 p95=35.2 p99=61.2 ms
+  rep2 C insert bs=1000 w=2: 66,439 rows/s, batch p50=27.9 p95=37.2 p99=63.2 ms
+  rep2 E insert bs=1000 w=2: 65,695 rows/s, batch p50=28.1 p95=40.9 p99=67.6 ms
+  rep2 A insert bs=1000 w=2: 67,876 rows/s, batch p50=27.8 p95=36.8 p99=61.2 ms
+  rep2 B insert bs=1000 w=2: 66,257 rows/s, batch p50=28.0 p95=38.0 p99=66.1 ms
+  rep3 E insert bs=1000 w=2: 65,380 rows/s, batch p50=28.3 p95=41.0 p99=71.5 ms
+  rep3 A insert bs=1000 w=2: 69,424 rows/s, batch p50=27.1 p95=33.7 p99=62.1 ms
+  rep3 B insert bs=1000 w=2: 66,631 rows/s, batch p50=28.2 p95=38.5 p99=61.5 ms
+  rep3 C insert bs=1000 w=2: 67,077 rows/s, batch p50=27.7 p95=38.8 p99=68.2 ms
+  rep4 A insert bs=1000 w=2: 68,143 rows/s, batch p50=27.7 p95=35.7 p99=59.4 ms
+  rep4 B insert bs=1000 w=2: 67,048 rows/s, batch p50=28.0 p95=38.4 p99=60.0 ms
+  rep4 C insert bs=1000 w=2: 66,770 rows/s, batch p50=28.4 p95=39.9 p99=59.3 ms
+  rep4 E insert bs=1000 w=2: 65,197 rows/s, batch p50=28.6 p95=41.5 p99=66.8 ms
+  rep5 B insert bs=1000 w=2: 68,281 rows/s, batch p50=27.5 p95=37.0 p99=58.0 ms
+  rep5 C insert bs=1000 w=2: 67,031 rows/s, batch p50=28.0 p95=39.4 p99=59.3 ms
+  rep5 E insert bs=1000 w=2: 65,937 rows/s, batch p50=27.8 p95=39.0 p99=69.7 ms
+  rep5 A insert bs=1000 w=2: 68,405 rows/s, batch p50=27.8 p95=35.0 p99=58.5 ms
+
+=== tenants=100 ===
+  rep0 (warm-up) A insert bs=1000 w=2: 68,420 rows/s, batch p50=27.4 p95=35.2 p99=50.1 ms
+  rep0 (warm-up) B insert bs=1000 w=2: 67,731 rows/s, batch p50=27.7 p95=34.7 p99=57.9 ms
+  rep0 (warm-up) C insert bs=1000 w=2: 65,757 rows/s, batch p50=27.1 p95=38.9 p99=63.9 ms
+  rep0 (warm-up) E insert bs=1000 w=2: 68,691 rows/s, batch p50=27.3 p95=33.1 p99=53.7 ms
+  rep1 B insert bs=1000 w=2: 70,096 rows/s, batch p50=26.7 p95=34.1 p99=57.6 ms
+  rep1 C insert bs=1000 w=2: 68,031 rows/s, batch p50=26.7 p95=38.3 p99=65.5 ms
+  rep1 E insert bs=1000 w=2: 68,873 rows/s, batch p50=27.1 p95=34.2 p99=50.5 ms
+  rep1 A insert bs=1000 w=2: 68,489 rows/s, batch p50=27.1 p95=37.0 p99=57.1 ms
+  rep2 C insert bs=1000 w=2: 67,746 rows/s, batch p50=27.3 p95=38.1 p99=69.8 ms
+  rep2 E insert bs=1000 w=2: 67,395 rows/s, batch p50=27.6 p95=33.8 p99=61.6 ms
+  rep2 A insert bs=1000 w=2: 68,727 rows/s, batch p50=26.9 p95=37.6 p99=55.8 ms
+  rep2 B insert bs=1000 w=2: 66,389 rows/s, batch p50=27.6 p95=39.7 p99=63.9 ms
+  rep3 E insert bs=1000 w=2: 67,744 rows/s, batch p50=27.7 p95=33.5 p99=58.4 ms
+  rep3 A insert bs=1000 w=2: 67,813 rows/s, batch p50=27.0 p95=35.7 p99=61.4 ms
+  rep3 B insert bs=1000 w=2: 68,102 rows/s, batch p50=27.1 p95=38.6 p99=60.3 ms
+  rep3 C insert bs=1000 w=2: 68,884 rows/s, batch p50=27.2 p95=34.4 p99=55.0 ms
+  rep4 A insert bs=1000 w=2: 68,828 rows/s, batch p50=26.7 p95=35.1 p99=62.7 ms
+  rep4 B insert bs=1000 w=2: 67,178 rows/s, batch p50=27.3 p95=38.5 p99=61.7 ms
+  rep4 C insert bs=1000 w=2: 67,244 rows/s, batch p50=27.3 p95=34.9 p99=59.8 ms
+  rep4 E insert bs=1000 w=2: 67,800 rows/s, batch p50=27.6 p95=34.1 p99=55.6 ms
+  rep5 B insert bs=1000 w=2: 68,351 rows/s, batch p50=26.8 p95=34.9 p99=59.0 ms
+  rep5 C insert bs=1000 w=2: 66,347 rows/s, batch p50=27.7 p95=39.3 p99=69.5 ms
+  rep5 E insert bs=1000 w=2: 68,660 rows/s, batch p50=27.2 p95=34.8 p99=62.6 ms
+  rep5 A insert bs=1000 w=2: 68,763 rows/s, batch p50=27.0 p95=36.2 p99=55.9 ms
+
+=== tenants=1000 ===
+  rep0 (warm-up) A insert bs=1000 w=2: 64,941 rows/s, batch p50=24.5 p95=30.2 p99=53.4 ms
+  rep0 (warm-up) B insert bs=1000 w=2: 62,678 rows/s, batch p50=24.4 p95=34.8 p99=58.0 ms
+  rep0 (warm-up) C insert bs=1000 w=2: 64,011 rows/s, batch p50=25.1 p95=30.3 p99=51.9 ms
+  rep0 (warm-up) E insert bs=1000 w=2: 63,187 rows/s, batch p50=24.8 p95=30.9 p99=53.8 ms
+  rep1 B insert bs=1000 w=2: 63,287 rows/s, batch p50=24.3 p95=33.3 p99=55.5 ms
+  rep1 C insert bs=1000 w=2: 62,660 rows/s, batch p50=24.8 p95=31.0 p99=60.2 ms
+  rep1 E insert bs=1000 w=2: 63,155 rows/s, batch p50=24.9 p95=31.4 p99=63.4 ms
+  rep1 A insert bs=1000 w=2: 65,507 rows/s, batch p50=24.6 p95=29.9 p99=51.4 ms
+  rep2 C insert bs=1000 w=2: 64,421 rows/s, batch p50=24.6 p95=30.6 p99=55.3 ms
+  rep2 E insert bs=1000 w=2: 63,824 rows/s, batch p50=24.5 p95=30.8 p99=55.0 ms
+  rep2 A insert bs=1000 w=2: 63,195 rows/s, batch p50=24.8 p95=32.9 p99=64.1 ms
+  rep2 B insert bs=1000 w=2: 62,152 rows/s, batch p50=24.8 p95=34.0 p99=62.1 ms
+  rep3 E insert bs=1000 w=2: 63,330 rows/s, batch p50=24.6 p95=31.0 p99=52.1 ms
+  rep3 A insert bs=1000 w=2: 65,512 rows/s, batch p50=24.4 p95=30.2 p99=55.1 ms
+  rep3 B insert bs=1000 w=2: 64,116 rows/s, batch p50=24.8 p95=31.7 p99=56.0 ms
+  rep3 C insert bs=1000 w=2: 63,263 rows/s, batch p50=24.7 p95=31.8 p99=59.9 ms
+  rep4 A insert bs=1000 w=2: 65,172 rows/s, batch p50=24.6 p95=31.5 p99=50.6 ms
+  rep4 B insert bs=1000 w=2: 65,085 rows/s, batch p50=24.8 p95=30.3 p99=53.0 ms
+  rep4 C insert bs=1000 w=2: 64,364 rows/s, batch p50=24.9 p95=31.0 p99=52.7 ms
+  rep4 E insert bs=1000 w=2: 61,755 rows/s, batch p50=25.4 p95=36.2 p99=55.0 ms
+  rep5 B insert bs=1000 w=2: 61,718 rows/s, batch p50=25.2 p95=32.6 p99=54.5 ms
+  rep5 C insert bs=1000 w=2: 64,321 rows/s, batch p50=25.0 p95=31.9 p99=49.0 ms
+  rep5 E insert bs=1000 w=2: 63,682 rows/s, batch p50=24.9 p95=32.6 p99=54.9 ms
+  rep5 A insert bs=1000 w=2: 65,250 rows/s, batch p50=24.4 p95=30.2 p99=53.2 ms
+
+wrote 12 rows to results/official/ingest_rls_summary.csv

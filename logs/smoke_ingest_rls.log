@@ -1,0 +1,23 @@
+PostgreSQL: PostgreSQL 16.15 on x86_64-pc-linux-musl | TimescaleDB: 2.30.2
+
+=== tenants=10 ===
+  rep0 (warm-up) A insert bs=1000 w=4: 60,530 rows/s, batch p50=53.7 p95=94.0 p99=98.1 ms
+  rep0 (warm-up) B insert bs=1000 w=4: 61,070 rows/s, batch p50=57.0 p95=83.3 p99=103.9 ms
+  rep0 (warm-up) C insert bs=1000 w=4: 63,247 rows/s, batch p50=55.0 p95=85.2 p99=103.0 ms
+  rep0 (warm-up) E insert bs=1000 w=4: 61,449 rows/s, batch p50=51.2 p95=96.2 p99=105.7 ms
+  rep1 B insert bs=1000 w=4: 60,898 rows/s, batch p50=54.0 p95=90.0 p99=105.1 ms
+  rep1 C insert bs=1000 w=4: 60,735 rows/s, batch p50=51.5 p95=88.0 p99=121.6 ms
+  rep1 E insert bs=1000 w=4: 61,178 rows/s, batch p50=49.0 p95=96.7 p99=106.9 ms
+  rep1 A insert bs=1000 w=4: 60,796 rows/s, batch p50=52.8 p95=98.1 p99=114.3 ms
+
+=== tenants=100 ===
+  rep0 (warm-up) A insert bs=1000 w=4: 56,433 rows/s, batch p50=30.9 p95=51.3 p99=107.3 ms
+  rep0 (warm-up) B insert bs=1000 w=4: 56,457 rows/s, batch p50=31.0 p95=56.2 p99=102.7 ms
+  rep0 (warm-up) C insert bs=1000 w=4: 56,858 rows/s, batch p50=29.4 p95=58.9 p99=113.8 ms
+  rep0 (warm-up) E insert bs=1000 w=4: 56,820 rows/s, batch p50=29.9 p95=58.7 p99=119.2 ms
+  rep1 B insert bs=1000 w=4: 56,693 rows/s, batch p50=29.9 p95=51.2 p99=114.6 ms
+  rep1 C insert bs=1000 w=4: 55,516 rows/s, batch p50=30.0 p95=49.6 p99=108.7 ms
+  rep1 E insert bs=1000 w=4: 54,386 rows/s, batch p50=30.4 p95=62.1 p99=108.7 ms
+  rep1 A insert bs=1000 w=4: 59,377 rows/s, batch p50=29.0 p95=53.7 p99=105.0 ms
+
+wrote 8 rows to results/smoke/ingest_rls_summary.csv

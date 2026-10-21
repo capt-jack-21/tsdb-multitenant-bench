@@ -118,7 +118,7 @@ def capture_environment(dsn, results_dir, extra=None):
                  "max_wal_size", "checkpoint_timeout", "synchronous_commit", "max_connections",
                  "wal_level", "autovacuum", "random_page_cost", "jit", "max_parallel_workers_per_gather")
         env["settings"] = dict(c.execute(
-            "SELECT name::text, (setting || coalesce(unit, ''))::text FROM pg_settings WHERE name = ANY(%s)",
+            "SELECT name::text, current_setting(name)::text FROM pg_settings WHERE name = ANY(%s)",
             (list(names),)
         ).fetchall())
     if extra:

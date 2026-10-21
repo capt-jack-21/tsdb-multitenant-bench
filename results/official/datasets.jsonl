@@ -1,0 +1,3 @@
+{"tenants": 10, "tag": "20261020-141827", "rows": 20100161, "total_bytes": 4313358336, "bytes_per_row": 214.6, "load_seconds": 243.6}
+{"tenants": 100, "tag": "20261020-141827", "rows": 20100160, "total_bytes": 4175142912, "bytes_per_row": 207.7, "load_seconds": 257.8}
+{"tenants": 1000, "tag": "20261020-141827", "rows": 20100155, "total_bytes": 3565953024, "bytes_per_row": 177.4, "load_seconds": 263.0}

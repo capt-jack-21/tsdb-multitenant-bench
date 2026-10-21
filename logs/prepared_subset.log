@@ -1,0 +1,36 @@
+PostgreSQL: PostgreSQL 16.15 on x86_64-pc-linux-musl | TimescaleDB: 2.30.2
+
+=== tenants=100 ===
+  loaded 20,100,160 rows, 4,175 MB (207.7 B/row) in 264.2s
+  plan A/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_13_1470_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q1 c=1: p50=1.01 p95=1.15 p99=1.42 ms, 964 tps
+  plan A/q3: telemetry scans = Index Scan; chunks scanned = 1; indexes = _hyper_13_1470_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q3 c=1: p50=0.86 p95=0.98 p99=1.13 ms, 1139 tps
+  plan B/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_13_1464_chunk_telemetry_tenant_device_time, _hyper_13_1465_chunk_telemetry_tenant_device_time, _hyper_13_1466_chunk_telemetry_tenant_device_time, _hyper_13_1467_chunk_telemetry_tenant_device_time, _hyper_13_1468_chunk_telemetry_tenant_device_time, _hyper_13_1469_chunk_telemetry_tenant_device_time, _hyper_13_1470_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q1 c=1: p50=0.73 p95=0.83 p99=0.99 ms, 1343 tps
+  plan B/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_13_1470_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q3 c=1: p50=0.92 p95=1.02 p99=1.23 ms, 1069 tps
+  plan E/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_13_1464_chunk_telemetry_tenant_device_time, _hyper_13_1465_chunk_telemetry_tenant_device_time, _hyper_13_1466_chunk_telemetry_tenant_device_time, _hyper_13_1467_chunk_telemetry_tenant_device_time, _hyper_13_1468_chunk_telemetry_tenant_device_time, _hyper_13_1469_chunk_telemetry_tenant_device_time, _hyper_13_1470_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q1 c=1: p50=64.10 p95=93.90 p99=205.62 ms, 15 tps
+  plan E/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_13_1470_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q3 c=1: p50=3.60 p95=4.51 p99=5.47 ms, 271 tps
+  rep1 B q1 c=1: p50=0.73 p95=0.83 p99=0.97 ms, 1346 tps
+  rep1 B q3 c=1: p50=0.92 p95=1.06 p99=1.29 ms, 1065 tps
+  rep1 E q1 c=1: p50=56.94 p95=71.44 p99=81.42 ms, 22 tps
+  rep1 E q3 c=1: p50=3.48 p95=3.94 p99=4.53 ms, 284 tps
+  rep1 A q1 c=1: p50=0.99 p95=1.11 p99=1.40 ms, 987 tps
+  rep1 A q3 c=1: p50=0.86 p95=0.97 p99=1.14 ms, 1140 tps
+  rep2 E q1 c=1: p50=21.24 p95=58.62 p99=68.19 ms, 34 tps
+  rep2 E q3 c=1: p50=3.63 p95=4.14 p99=4.71 ms, 273 tps
+  rep2 A q1 c=1: p50=1.00 p95=1.13 p99=1.43 ms, 973 tps
+  rep2 A q3 c=1: p50=0.86 p95=0.97 p99=1.19 ms, 1139 tps
+  rep2 B q1 c=1: p50=0.71 p95=0.81 p99=0.96 ms, 1385 tps
+  rep2 B q3 c=1: p50=0.93 p95=1.02 p99=1.20 ms, 1057 tps
+  rep3 A q1 c=1: p50=0.99 p95=1.11 p99=1.41 ms, 984 tps
+  rep3 A q3 c=1: p50=0.86 p95=0.97 p99=1.13 ms, 1147 tps
+  rep3 B q1 c=1: p50=0.71 p95=0.84 p99=1.01 ms, 1368 tps
+  rep3 B q3 c=1: p50=0.94 p95=1.03 p99=1.20 ms, 1047 tps
+  rep3 E q1 c=1: p50=18.92 p95=22.42 p99=31.20 ms, 52 tps
+  rep3 E q3 c=1: p50=3.69 p95=4.12 p99=5.17 ms, 269 tps
+
+wrote 6 rows to results/official_prepared/queries_summary.csv

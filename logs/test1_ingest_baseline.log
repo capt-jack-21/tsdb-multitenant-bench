@@ -1,0 +1,113 @@
+PostgreSQL: PostgreSQL 16.15 on x86_64-pc-linux-musl | TimescaleDB: 2.30.2
+
+=== tenants=100 ===
+  rep0 (warm-up) A copy bs=500 w=1: 92,016 rows/s, batch p50=5.2 p95=6.8 p99=8.6 ms
+  rep1 A copy bs=500 w=1: 88,188 rows/s, batch p50=5.4 p95=7.3 p99=9.7 ms
+  rep2 A copy bs=500 w=1: 87,527 rows/s, batch p50=5.5 p95=7.5 p99=9.4 ms
+  rep3 A copy bs=500 w=1: 87,322 rows/s, batch p50=5.5 p95=7.2 p99=9.2 ms
+  rep4 A copy bs=500 w=1: 88,338 rows/s, batch p50=5.4 p95=7.1 p99=9.3 ms
+  rep5 A copy bs=500 w=1: 88,649 rows/s, batch p50=5.4 p95=7.2 p99=9.1 ms
+  rep0 (warm-up) A copy bs=500 w=2: 150,890 rows/s, batch p50=6.4 p95=8.3 p99=11.9 ms
+  rep1 A copy bs=500 w=2: 149,537 rows/s, batch p50=6.4 p95=8.4 p99=13.2 ms
+  rep2 A copy bs=500 w=2: 149,725 rows/s, batch p50=6.3 p95=9.2 p99=13.7 ms
+  rep3 A copy bs=500 w=2: 143,097 rows/s, batch p50=6.4 p95=10.1 p99=13.9 ms
+  rep4 A copy bs=500 w=2: 146,173 rows/s, batch p50=6.2 p95=10.5 p99=14.1 ms
+  rep5 A copy bs=500 w=2: 140,889 rows/s, batch p50=6.7 p95=9.9 p99=13.5 ms
+  rep0 (warm-up) A copy bs=500 w=4: 164,623 rows/s, batch p50=11.6 p95=16.8 p99=19.9 ms
+  rep1 A copy bs=500 w=4: 165,443 rows/s, batch p50=11.6 p95=16.3 p99=20.0 ms
+  rep2 A copy bs=500 w=4: 148,558 rows/s, batch p50=12.8 p95=19.2 p99=23.9 ms
+  rep3 A copy bs=500 w=4: 144,303 rows/s, batch p50=13.2 p95=19.7 p99=26.0 ms
+  rep4 A copy bs=500 w=4: 146,110 rows/s, batch p50=13.0 p95=19.0 p99=23.4 ms
+  rep5 A copy bs=500 w=4: 149,924 rows/s, batch p50=12.8 p95=17.8 p99=21.6 ms
+  rep0 (warm-up) A insert bs=500 w=1: 34,368 rows/s, batch p50=14.0 p95=17.2 p99=23.1 ms
+  rep1 A insert bs=500 w=1: 34,816 rows/s, batch p50=13.9 p95=16.5 p99=21.3 ms
+  rep2 A insert bs=500 w=1: 34,824 rows/s, batch p50=13.9 p95=16.5 p99=21.1 ms
+  rep3 A insert bs=500 w=1: 34,513 rows/s, batch p50=14.0 p95=16.7 p99=21.3 ms
+  rep4 A insert bs=500 w=1: 34,436 rows/s, batch p50=14.0 p95=17.0 p99=22.6 ms
+  rep5 A insert bs=500 w=1: 34,581 rows/s, batch p50=14.0 p95=16.6 p99=21.4 ms
+  rep0 (warm-up) A insert bs=500 w=2: 64,051 rows/s, batch p50=14.3 p95=20.7 p99=32.0 ms
+  rep1 A insert bs=500 w=2: 63,792 rows/s, batch p50=14.4 p95=21.9 p99=31.8 ms
+  rep2 A insert bs=500 w=2: 65,110 rows/s, batch p50=14.4 p95=19.1 p99=31.3 ms
+  rep3 A insert bs=500 w=2: 63,098 rows/s, batch p50=14.7 p95=20.7 p99=32.2 ms
+  rep4 A insert bs=500 w=2: 64,270 rows/s, batch p50=14.4 p95=21.1 p99=31.7 ms
+  rep5 A insert bs=500 w=2: 65,087 rows/s, batch p50=14.3 p95=21.0 p99=33.2 ms
+  rep0 (warm-up) A insert bs=500 w=4: 63,698 rows/s, batch p50=29.9 p95=46.8 p99=67.0 ms
+  rep1 A insert bs=500 w=4: 63,313 rows/s, batch p50=30.0 p95=48.0 p99=59.2 ms
+  rep2 A insert bs=500 w=4: 62,647 rows/s, batch p50=30.4 p95=47.4 p99=59.3 ms
+  rep3 A insert bs=500 w=4: 62,805 rows/s, batch p50=30.4 p95=47.1 p99=62.7 ms
+  rep4 A insert bs=500 w=4: 62,865 rows/s, batch p50=30.5 p95=48.6 p99=62.5 ms
+  rep5 A insert bs=500 w=4: 65,231 rows/s, batch p50=29.6 p95=45.0 p99=57.7 ms
+  rep0 (warm-up) A copy bs=2000 w=1: 104,434 rows/s, batch p50=18.5 p95=23.6 p99=27.0 ms
+  rep1 A copy bs=2000 w=1: 105,254 rows/s, batch p50=18.3 p95=23.8 p99=27.9 ms
+  rep2 A copy bs=2000 w=1: 108,233 rows/s, batch p50=17.8 p95=22.5 p99=27.0 ms
+  rep3 A copy bs=2000 w=1: 106,728 rows/s, batch p50=18.2 p95=23.6 p99=25.8 ms
+  rep4 A copy bs=2000 w=1: 104,105 rows/s, batch p50=18.5 p95=24.2 p99=27.7 ms
+  rep5 A copy bs=2000 w=1: 104,794 rows/s, batch p50=18.4 p95=23.7 p99=26.1 ms
+  rep0 (warm-up) A copy bs=2000 w=2: 174,923 rows/s, batch p50=22.2 p95=27.5 p99=30.9 ms
+  rep1 A copy bs=2000 w=2: 168,663 rows/s, batch p50=22.9 p95=28.8 p99=33.6 ms
+  rep2 A copy bs=2000 w=2: 175,560 rows/s, batch p50=21.3 p95=30.0 p99=41.8 ms
+  rep3 A copy bs=2000 w=2: 175,145 rows/s, batch p50=21.1 p95=34.3 p99=44.9 ms
+  rep4 A copy bs=2000 w=2: 169,335 rows/s, batch p50=22.7 p95=28.8 p99=37.5 ms
+  rep5 A copy bs=2000 w=2: 166,536 rows/s, batch p50=23.4 p95=29.5 p99=35.8 ms
+  rep0 (warm-up) A copy bs=2000 w=4: 169,540 rows/s, batch p50=44.4 p95=66.1 p99=79.6 ms
+  rep1 A copy bs=2000 w=4: 164,039 rows/s, batch p50=46.2 p95=69.0 p99=85.9 ms
+  rep2 A copy bs=2000 w=4: 179,788 rows/s, batch p50=43.7 p95=56.8 p99=74.3 ms
+  rep3 A copy bs=2000 w=4: 176,180 rows/s, batch p50=44.1 p95=58.1 p99=69.1 ms
+  rep4 A copy bs=2000 w=4: 169,177 rows/s, batch p50=45.3 p95=64.8 p99=75.6 ms
+  rep5 A copy bs=2000 w=4: 168,115 rows/s, batch p50=45.5 p95=64.0 p99=75.2 ms
+  rep0 (warm-up) A insert bs=2000 w=1: 36,129 rows/s, batch p50=53.4 p95=67.9 p99=81.1 ms
+  rep1 A insert bs=2000 w=1: 36,712 rows/s, batch p50=52.7 p95=62.6 p99=71.8 ms
+  rep2 A insert bs=2000 w=1: 36,815 rows/s, batch p50=52.9 p95=60.6 p99=73.7 ms
+  rep3 A insert bs=2000 w=1: 36,661 rows/s, batch p50=53.1 p95=62.3 p99=71.0 ms
+  rep4 A insert bs=2000 w=1: 36,721 rows/s, batch p50=52.7 p95=63.1 p99=72.5 ms
+  rep5 A insert bs=2000 w=1: 36,762 rows/s, batch p50=53.1 p95=60.5 p99=71.9 ms
+  rep0 (warm-up) A insert bs=2000 w=2: 67,646 rows/s, batch p50=57.5 p95=73.4 p99=96.1 ms
+  rep1 A insert bs=2000 w=2: 68,184 rows/s, batch p50=56.4 p95=73.1 p99=101.4 ms
+  rep2 A insert bs=2000 w=2: 69,724 rows/s, batch p50=54.2 p95=64.8 p99=97.3 ms
+  rep3 A insert bs=2000 w=2: 68,370 rows/s, batch p50=56.0 p95=70.8 p99=105.2 ms
+  rep4 A insert bs=2000 w=2: 67,668 rows/s, batch p50=55.2 p95=76.8 p99=109.1 ms
+  rep5 A insert bs=2000 w=2: 68,460 rows/s, batch p50=55.9 p95=67.7 p99=95.7 ms
+  rep0 (warm-up) A insert bs=2000 w=4: 69,764 rows/s, batch p50=113.4 p95=165.0 p99=184.1 ms
+  rep1 A insert bs=2000 w=4: 68,716 rows/s, batch p50=113.8 p95=162.6 p99=184.9 ms
+  rep2 A insert bs=2000 w=4: 68,798 rows/s, batch p50=112.6 p95=161.2 p99=182.2 ms
+  rep3 A insert bs=2000 w=4: 68,020 rows/s, batch p50=114.1 p95=167.3 p99=193.5 ms
+  rep4 A insert bs=2000 w=4: 66,305 rows/s, batch p50=117.4 p95=176.1 p99=197.5 ms
+  rep5 A insert bs=2000 w=4: 69,122 rows/s, batch p50=112.9 p95=161.9 p99=182.6 ms
+  rep0 (warm-up) A copy bs=10000 w=1: 115,978 rows/s, batch p50=85.4 p95=95.7 p99=102.3 ms
+  rep1 A copy bs=10000 w=1: 115,008 rows/s, batch p50=85.5 p95=96.9 p99=103.4 ms
+  rep2 A copy bs=10000 w=1: 113,873 rows/s, batch p50=86.4 p95=100.4 p99=105.5 ms
+  rep3 A copy bs=10000 w=1: 115,474 rows/s, batch p50=85.6 p95=99.3 p99=107.9 ms
+  rep4 A copy bs=10000 w=1: 116,602 rows/s, batch p50=84.7 p95=94.7 p99=100.4 ms
+  rep5 A copy bs=10000 w=1: 112,713 rows/s, batch p50=87.4 p95=100.4 p99=104.5 ms
+  rep0 (warm-up) A copy bs=10000 w=2: 179,238 rows/s, batch p50=104.3 p95=154.0 p99=212.0 ms
+  rep1 A copy bs=10000 w=2: 183,481 rows/s, batch p50=105.4 p95=121.1 p99=192.0 ms
+  rep2 A copy bs=10000 w=2: 191,463 rows/s, batch p50=100.6 p95=116.6 p99=148.1 ms
+  rep3 A copy bs=10000 w=2: 182,733 rows/s, batch p50=104.1 p95=151.7 p99=175.9 ms
+  rep4 A copy bs=10000 w=2: 178,625 rows/s, batch p50=105.4 p95=162.8 p99=177.8 ms
+  rep5 A copy bs=10000 w=2: 177,984 rows/s, batch p50=108.8 p95=122.4 p99=202.4 ms
+  rep0 (warm-up) A copy bs=10000 w=4: 186,786 rows/s, batch p50=203.5 p95=268.0 p99=381.4 ms
+  rep1 A copy bs=10000 w=4: 182,340 rows/s, batch p50=212.0 p95=301.5 p99=331.2 ms
+  rep2 A copy bs=10000 w=4: 185,196 rows/s, batch p50=208.4 p95=266.3 p99=323.1 ms
+  rep3 A copy bs=10000 w=4: 190,091 rows/s, batch p50=205.7 p95=262.8 p99=320.0 ms
+  rep4 A copy bs=10000 w=4: 184,914 rows/s, batch p50=209.1 p95=284.5 p99=316.1 ms
+  rep5 A copy bs=10000 w=4: 186,300 rows/s, batch p50=206.0 p95=288.0 p99=318.9 ms
+  rep0 (warm-up) A insert bs=10000 w=1: 39,182 rows/s, batch p50=254.0 p95=270.7 p99=285.7 ms
+  rep1 A insert bs=10000 w=1: 38,741 rows/s, batch p50=255.6 p95=275.9 p99=287.5 ms
+  rep2 A insert bs=10000 w=1: 38,847 rows/s, batch p50=256.0 p95=273.7 p99=281.2 ms
+  rep3 A insert bs=10000 w=1: 38,546 rows/s, batch p50=257.2 p95=280.3 p99=290.8 ms
+  rep4 A insert bs=10000 w=1: 38,366 rows/s, batch p50=258.9 p95=284.2 p99=304.9 ms
+  rep5 A insert bs=10000 w=1: 38,040 rows/s, batch p50=258.4 p95=291.0 p99=298.4 ms
+  rep0 (warm-up) A insert bs=10000 w=2: 71,938 rows/s, batch p50=265.5 p95=327.1 p99=363.9 ms
+  rep1 A insert bs=10000 w=2: 68,885 rows/s, batch p50=280.9 p95=379.0 p99=404.1 ms
+  rep2 A insert bs=10000 w=2: 72,600 rows/s, batch p50=263.2 p95=311.5 p99=368.8 ms
+  rep3 A insert bs=10000 w=2: 72,198 rows/s, batch p50=264.7 p95=353.5 p99=380.4 ms
+  rep4 A insert bs=10000 w=2: 74,482 rows/s, batch p50=257.6 p95=311.1 p99=363.8 ms
+  rep5 A insert bs=10000 w=2: 73,437 rows/s, batch p50=260.9 p95=334.0 p99=355.4 ms
+  rep0 (warm-up) A insert bs=10000 w=4: 72,717 rows/s, batch p50=515.2 p95=749.0 p99=820.1 ms
+  rep1 A insert bs=10000 w=4: 73,612 rows/s, batch p50=533.1 p95=728.2 p99=829.9 ms
+  rep2 A insert bs=10000 w=4: 71,689 rows/s, batch p50=534.1 p95=782.4 p99=867.3 ms
+  rep3 A insert bs=10000 w=4: 73,911 rows/s, batch p50=521.0 p95=709.3 p99=805.9 ms
+  rep4 A insert bs=10000 w=4: 74,782 rows/s, batch p50=515.6 p95=687.4 p99=767.8 ms
+  rep5 A insert bs=10000 w=4: 73,740 rows/s, batch p50=516.0 p95=714.0 p99=775.0 ms
+
+wrote 18 rows to results/official/ingest_baseline_summary.csv

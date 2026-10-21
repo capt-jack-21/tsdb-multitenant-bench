@@ -1,0 +1,597 @@
+PostgreSQL: PostgreSQL 16.15 on x86_64-pc-linux-musl | TimescaleDB: 2.30.2
+
+=== tenants=10 ===
+  loaded 20,100,161 rows, 4,313 MB (214.6 B/row) in 243.6s
+  plan A/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_6_189_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q1 c=1: p50=0.89 p95=0.96 p99=1.21 ms, 1116 tps
+  rep0 (warm-up) A q1 c=2: p50=1.07 p95=1.42 p99=1.92 ms, 1810 tps
+  plan A/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_mission_time, _hyper_6_184_chunk_telemetry_mission_time, _hyper_6_185_chunk_telemetry_mission_time, _hyper_6_186_chunk_telemetry_mission_time, _hyper_6_187_chunk_telemetry_mission_time, _hyper_6_188_chunk_telemetry_mission_time, _hyper_6_189_chunk_telemetry_mission_time
+  rep0 (warm-up) A q2 c=1: p50=2.58 p95=5.21 p99=6.53 ms, 306 tps
+  rep0 (warm-up) A q2 c=2: p50=3.40 p95=5.72 p99=7.06 ms, 542 tps
+  plan A/q3: telemetry scans = Index Scan; chunks scanned = 1; indexes = _hyper_6_189_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q3 c=1: p50=0.72 p95=0.81 p99=1.00 ms, 1357 tps
+  rep0 (warm-up) A q3 c=2: p50=0.89 p95=1.22 p99=1.59 ms, 2182 tps
+  plan B/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_tenant_device_time, _hyper_6_184_chunk_telemetry_tenant_device_time, _hyper_6_185_chunk_telemetry_tenant_device_time, _hyper_6_186_chunk_telemetry_tenant_device_time, _hyper_6_187_chunk_telemetry_tenant_device_time, _hyper_6_188_chunk_telemetry_tenant_device_time, _hyper_6_189_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q1 c=1: p50=1.21 p95=1.33 p99=1.83 ms, 806 tps
+  rep0 (warm-up) B q1 c=2: p50=1.44 p95=1.76 p99=2.45 ms, 1361 tps
+  plan B/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_mission_time, _hyper_6_184_chunk_telemetry_mission_time, _hyper_6_185_chunk_telemetry_mission_time, _hyper_6_186_chunk_telemetry_mission_time, _hyper_6_187_chunk_telemetry_mission_time, _hyper_6_188_chunk_telemetry_mission_time, _hyper_6_189_chunk_telemetry_mission_time
+  rep0 (warm-up) B q2 c=1: p50=2.40 p95=3.95 p99=4.99 ms, 384 tps
+  rep0 (warm-up) B q2 c=2: p50=3.46 p95=5.14 p99=6.43 ms, 555 tps
+  plan B/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_6_189_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q3 c=1: p50=0.82 p95=0.94 p99=1.16 ms, 1188 tps
+  rep0 (warm-up) B q3 c=2: p50=0.97 p95=1.34 p99=1.72 ms, 1979 tps
+  plan C/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_time_idx, _hyper_6_184_chunk_telemetry_time_idx, _hyper_6_185_chunk_telemetry_time_idx, _hyper_6_186_chunk_telemetry_time_idx, _hyper_6_187_chunk_telemetry_time_idx, _hyper_6_188_chunk_telemetry_time_idx, _hyper_6_189_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q1 c=1: p50=2.42 p95=2.63 p99=3.17 ms, 406 tps
+  rep0 (warm-up) C q1 c=2: p50=2.65 p95=2.97 p99=4.33 ms, 740 tps
+  plan C/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_mission_time, _hyper_6_184_chunk_telemetry_mission_time, _hyper_6_185_chunk_telemetry_mission_time, _hyper_6_186_chunk_telemetry_mission_time, _hyper_6_187_chunk_telemetry_mission_time, _hyper_6_188_chunk_telemetry_mission_time, _hyper_6_189_chunk_telemetry_mission_time, memberships_pkey
+  rep0 (warm-up) C q2 c=1: p50=4.07 p95=6.52 p99=8.98 ms, 245 tps
+  rep0 (warm-up) C q2 c=2: p50=3.67 p95=6.01 p99=7.34 ms, 501 tps
+  plan C/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_6_189_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q3 c=1: p50=2.06 p95=2.26 p99=3.50 ms, 474 tps
+  rep0 (warm-up) C q3 c=2: p50=2.29 p95=2.60 p99=3.69 ms, 856 tps
+  plan D/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_tenant_device_time, _hyper_6_184_chunk_telemetry_tenant_device_time, _hyper_6_185_chunk_telemetry_tenant_device_time, _hyper_6_186_chunk_telemetry_tenant_device_time, _hyper_6_187_chunk_telemetry_tenant_device_time, _hyper_6_188_chunk_telemetry_tenant_device_time, _hyper_6_189_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q1 c=1: p50=1.26 p95=1.36 p99=1.50 ms, 781 tps
+  rep0 (warm-up) D q1 c=2: p50=1.47 p95=1.78 p99=2.50 ms, 1331 tps
+  plan D/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_mission_time, _hyper_6_184_chunk_telemetry_mission_time, _hyper_6_185_chunk_telemetry_mission_time, _hyper_6_186_chunk_telemetry_mission_time, _hyper_6_187_chunk_telemetry_mission_time, _hyper_6_188_chunk_telemetry_mission_time, _hyper_6_189_chunk_telemetry_mission_time
+  rep0 (warm-up) D q2 c=1: p50=2.42 p95=4.26 p99=5.34 ms, 370 tps
+  rep0 (warm-up) D q2 c=2: p50=3.54 p95=5.12 p99=6.24 ms, 548 tps
+  plan D/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_6_189_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q3 c=1: p50=0.84 p95=0.96 p99=1.17 ms, 1169 tps
+  rep0 (warm-up) D q3 c=2: p50=1.00 p95=1.33 p99=1.75 ms, 1946 tps
+  plan E/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_time_idx, _hyper_6_184_chunk_telemetry_time_idx, _hyper_6_185_chunk_telemetry_time_idx, _hyper_6_186_chunk_telemetry_time_idx, _hyper_6_187_chunk_telemetry_time_idx, _hyper_6_188_chunk_telemetry_time_idx, _hyper_6_189_chunk_telemetry_time_idx
+  rep0 (warm-up) E q1 c=1: p50=2.06 p95=2.26 p99=3.21 ms, 476 tps
+  rep0 (warm-up) E q1 c=2: p50=2.27 p95=2.65 p99=3.73 ms, 857 tps
+  plan E/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_6_183_chunk_telemetry_mission_time, _hyper_6_184_chunk_telemetry_mission_time, _hyper_6_185_chunk_telemetry_mission_time, _hyper_6_186_chunk_telemetry_mission_time, _hyper_6_187_chunk_telemetry_mission_time, _hyper_6_188_chunk_telemetry_mission_time, _hyper_6_189_chunk_telemetry_mission_time
+  rep0 (warm-up) E q2 c=1: p50=2.42 p95=3.08 p99=4.34 ms, 393 tps
+  rep0 (warm-up) E q2 c=2: p50=3.40 p95=5.04 p99=6.25 ms, 563 tps
+  plan E/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_6_189_chunk_telemetry_time_idx
+  rep0 (warm-up) E q3 c=1: p50=1.76 p95=1.94 p99=2.70 ms, 555 tps
+  rep0 (warm-up) E q3 c=2: p50=1.99 p95=2.30 p99=3.28 ms, 983 tps
+  rep1 B q1 c=1: p50=1.22 p95=1.36 p99=1.70 ms, 802 tps
+  rep1 B q1 c=2: p50=1.43 p95=1.73 p99=2.42 ms, 1369 tps
+  rep1 B q2 c=1: p50=2.67 p95=5.01 p99=7.11 ms, 313 tps
+  rep1 B q2 c=2: p50=3.58 p95=5.45 p99=7.82 ms, 536 tps
+  rep1 B q3 c=1: p50=0.83 p95=0.91 p99=1.07 ms, 1191 tps
+  rep1 B q3 c=2: p50=0.98 p95=1.26 p99=1.65 ms, 2006 tps
+  rep1 C q1 c=1: p50=2.44 p95=2.63 p99=3.58 ms, 402 tps
+  rep1 C q1 c=2: p50=2.64 p95=3.04 p99=4.25 ms, 735 tps
+  rep1 C q2 c=1: p50=2.46 p95=5.68 p99=8.19 ms, 312 tps
+  rep1 C q2 c=2: p50=3.63 p95=5.44 p99=6.93 ms, 532 tps
+  rep1 C q3 c=1: p50=2.07 p95=2.20 p99=2.62 ms, 477 tps
+  rep1 C q3 c=2: p50=2.31 p95=2.66 p99=3.75 ms, 846 tps
+  rep1 D q1 c=1: p50=1.26 p95=1.38 p99=1.62 ms, 781 tps
+  rep1 D q1 c=2: p50=1.47 p95=1.77 p99=2.50 ms, 1339 tps
+  rep1 D q2 c=1: p50=2.39 p95=3.73 p99=4.95 ms, 390 tps
+  rep1 D q2 c=2: p50=3.41 p95=4.88 p99=6.04 ms, 569 tps
+  rep1 D q3 c=1: p50=0.83 p95=0.90 p99=1.03 ms, 1188 tps
+  rep1 D q3 c=2: p50=0.99 p95=1.33 p99=1.76 ms, 1965 tps
+  rep1 E q1 c=1: p50=2.17 p95=2.27 p99=2.43 ms, 459 tps
+  rep1 E q1 c=2: p50=2.24 p95=2.52 p99=3.34 ms, 878 tps
+  rep1 E q2 c=1: p50=2.38 p95=2.84 p99=3.94 ms, 405 tps
+  rep1 E q2 c=2: p50=3.49 p95=5.01 p99=6.17 ms, 553 tps
+  rep1 E q3 c=1: p50=1.76 p95=1.89 p99=2.43 ms, 559 tps
+  rep1 E q3 c=2: p50=1.98 p95=2.27 p99=3.26 ms, 986 tps
+  rep1 A q1 c=1: p50=0.88 p95=0.97 p99=1.11 ms, 1123 tps
+  rep1 A q1 c=2: p50=1.06 p95=1.43 p99=1.94 ms, 1819 tps
+  rep1 A q2 c=1: p50=2.12 p95=2.67 p99=4.07 ms, 446 tps
+  rep1 A q2 c=2: p50=3.10 p95=4.59 p99=5.80 ms, 625 tps
+  rep1 A q3 c=1: p50=0.70 p95=0.77 p99=0.86 ms, 1411 tps
+  rep1 A q3 c=2: p50=0.87 p95=1.18 p99=1.56 ms, 2228 tps
+  rep2 C q1 c=1: p50=2.41 p95=2.63 p99=3.08 ms, 406 tps
+  rep2 C q1 c=2: p50=2.62 p95=2.94 p99=4.23 ms, 746 tps
+  rep2 C q2 c=1: p50=2.53 p95=5.83 p99=8.67 ms, 298 tps
+  rep2 C q2 c=2: p50=3.53 p95=5.46 p99=7.31 ms, 543 tps
+  rep2 C q3 c=1: p50=2.06 p95=2.25 p99=2.43 ms, 477 tps
+  rep2 C q3 c=2: p50=2.26 p95=2.58 p99=3.40 ms, 866 tps
+  rep2 D q1 c=1: p50=1.26 p95=1.39 p99=1.82 ms, 778 tps
+  rep2 D q1 c=2: p50=1.46 p95=1.77 p99=2.42 ms, 1338 tps
+  rep2 D q2 c=1: p50=2.47 p95=3.50 p99=4.65 ms, 384 tps
+  rep2 D q2 c=2: p50=3.46 p95=4.97 p99=5.92 ms, 565 tps
+  rep2 D q3 c=1: p50=0.83 p95=0.90 p99=1.15 ms, 1189 tps
+  rep2 D q3 c=2: p50=0.99 p95=1.32 p99=1.69 ms, 1964 tps
+  rep2 E q1 c=1: p50=2.11 p95=2.27 p99=2.50 ms, 469 tps
+  rep2 E q1 c=2: p50=2.29 p95=2.59 p99=3.49 ms, 855 tps
+  rep2 E q2 c=1: p50=2.42 p95=2.80 p99=3.90 ms, 401 tps
+  rep2 E q2 c=2: p50=3.39 p95=4.91 p99=5.91 ms, 569 tps
+  rep2 E q3 c=1: p50=1.80 p95=1.96 p99=2.11 ms, 550 tps
+  rep2 E q3 c=2: p50=1.98 p95=2.28 p99=3.31 ms, 987 tps
+  rep2 A q1 c=1: p50=0.88 p95=0.94 p99=1.18 ms, 1128 tps
+  rep2 A q1 c=2: p50=1.05 p95=1.42 p99=1.93 ms, 1831 tps
+  rep2 A q2 c=1: p50=2.18 p95=2.83 p99=3.65 ms, 438 tps
+  rep2 A q2 c=2: p50=3.19 p95=4.76 p99=5.71 ms, 607 tps
+  rep2 A q3 c=1: p50=0.72 p95=0.79 p99=0.99 ms, 1374 tps
+  rep2 A q3 c=2: p50=0.87 p95=1.20 p99=1.55 ms, 2228 tps
+  rep2 B q1 c=1: p50=1.24 p95=1.39 p99=1.63 ms, 794 tps
+  rep2 B q1 c=2: p50=1.41 p95=1.77 p99=2.52 ms, 1374 tps
+  rep2 B q2 c=1: p50=2.43 p95=2.86 p99=3.36 ms, 402 tps
+  rep2 B q2 c=2: p50=3.43 p95=4.90 p99=6.21 ms, 564 tps
+  rep2 B q3 c=1: p50=0.82 p95=0.89 p99=0.98 ms, 1213 tps
+  rep2 B q3 c=2: p50=0.99 p95=1.29 p99=1.77 ms, 1972 tps
+  rep3 D q1 c=1: p50=1.27 p95=1.40 p99=1.73 ms, 776 tps
+  rep3 D q1 c=2: p50=1.50 p95=1.85 p99=2.55 ms, 1299 tps
+  rep3 D q2 c=1: p50=2.50 p95=4.24 p99=6.01 ms, 358 tps
+  rep3 D q2 c=2: p50=3.49 p95=5.21 p99=6.71 ms, 546 tps
+  rep3 D q3 c=1: p50=0.83 p95=0.89 p99=1.09 ms, 1192 tps
+  rep3 D q3 c=2: p50=1.00 p95=1.31 p99=1.72 ms, 1952 tps
+  rep3 E q1 c=1: p50=2.07 p95=2.25 p99=3.35 ms, 474 tps
+  rep3 E q1 c=2: p50=2.26 p95=2.54 p99=3.39 ms, 870 tps
+  rep3 E q2 c=1: p50=2.43 p95=2.83 p99=3.65 ms, 400 tps
+  rep3 E q2 c=2: p50=3.42 p95=4.94 p99=5.92 ms, 567 tps
+  rep3 E q3 c=1: p50=1.79 p95=1.98 p99=2.88 ms, 545 tps
+  rep3 E q3 c=2: p50=1.98 p95=2.24 p99=3.06 ms, 994 tps
+  rep3 A q1 c=1: p50=0.89 p95=0.97 p99=1.20 ms, 1103 tps
+  rep3 A q1 c=2: p50=1.05 p95=1.41 p99=1.93 ms, 1833 tps
+  rep3 A q2 c=1: p50=2.22 p95=2.69 p99=3.25 ms, 438 tps
+  rep3 A q2 c=2: p50=3.10 p95=4.57 p99=5.30 ms, 626 tps
+  rep3 A q3 c=1: p50=0.72 p95=0.79 p99=0.97 ms, 1376 tps
+  rep3 A q3 c=2: p50=0.88 p95=1.24 p99=1.60 ms, 2202 tps
+  rep3 B q1 c=1: p50=1.21 p95=1.29 p99=1.54 ms, 818 tps
+  rep3 B q1 c=2: p50=1.42 p95=1.73 p99=2.44 ms, 1383 tps
+  rep3 B q2 c=1: p50=2.42 p95=2.83 p99=3.43 ms, 403 tps
+  rep3 B q2 c=2: p50=3.49 p95=5.03 p99=6.17 ms, 557 tps
+  rep3 B q3 c=1: p50=0.82 p95=0.90 p99=1.13 ms, 1207 tps
+  rep3 B q3 c=2: p50=0.99 p95=1.34 p99=1.80 ms, 1946 tps
+  rep3 C q1 c=1: p50=2.42 p95=2.59 p99=3.22 ms, 405 tps
+  rep3 C q1 c=2: p50=2.59 p95=2.87 p99=3.94 ms, 755 tps
+  rep3 C q2 c=1: p50=2.39 p95=4.91 p99=8.30 ms, 348 tps
+  rep3 C q2 c=2: p50=3.50 p95=5.26 p99=6.56 ms, 548 tps
+  rep3 C q3 c=1: p50=2.08 p95=2.33 p99=3.08 ms, 469 tps
+  rep3 C q3 c=2: p50=2.28 p95=2.60 p99=3.59 ms, 858 tps
+  rep4 E q1 c=1: p50=2.08 p95=2.26 p99=2.57 ms, 471 tps
+  rep4 E q1 c=2: p50=2.27 p95=2.58 p99=3.63 ms, 860 tps
+  rep4 E q2 c=1: p50=2.42 p95=4.08 p99=5.55 ms, 372 tps
+  rep4 E q2 c=2: p50=3.55 p95=5.39 p99=6.93 ms, 537 tps
+  rep4 E q3 c=1: p50=1.78 p95=1.93 p99=2.85 ms, 550 tps
+  rep4 E q3 c=2: p50=2.00 p95=2.33 p99=3.24 ms, 974 tps
+  rep4 A q1 c=1: p50=0.88 p95=0.96 p99=1.21 ms, 1118 tps
+  rep4 A q1 c=2: p50=1.05 p95=1.38 p99=1.85 ms, 1842 tps
+  rep4 A q2 c=1: p50=2.14 p95=2.70 p99=3.77 ms, 447 tps
+  rep4 A q2 c=2: p50=3.15 p95=4.65 p99=5.76 ms, 616 tps
+  rep4 A q3 c=1: p50=0.73 p95=0.83 p99=1.02 ms, 1355 tps
+  rep4 A q3 c=2: p50=0.88 p95=1.21 p99=1.55 ms, 2203 tps
+  rep4 B q1 c=1: p50=1.23 p95=1.40 p99=1.49 ms, 796 tps
+  rep4 B q1 c=2: p50=1.42 p95=1.76 p99=2.47 ms, 1371 tps
+  rep4 B q2 c=1: p50=2.45 p95=2.92 p99=3.59 ms, 395 tps
+  rep4 B q2 c=2: p50=3.48 p95=5.06 p99=5.83 ms, 555 tps
+  rep4 B q3 c=1: p50=0.83 p95=0.91 p99=1.14 ms, 1190 tps
+  rep4 B q3 c=2: p50=0.99 p95=1.28 p99=1.69 ms, 1987 tps
+  rep4 C q1 c=1: p50=2.46 p95=2.66 p99=3.02 ms, 401 tps
+  rep4 C q1 c=2: p50=2.63 p95=3.00 p99=4.54 ms, 740 tps
+  rep4 C q2 c=1: p50=2.43 p95=5.21 p99=8.52 ms, 339 tps
+  rep4 C q2 c=2: p50=3.55 p95=5.40 p99=6.95 ms, 537 tps
+  rep4 C q3 c=1: p50=2.08 p95=2.33 p99=3.16 ms, 469 tps
+  rep4 C q3 c=2: p50=2.28 p95=2.61 p99=3.77 ms, 856 tps
+  rep4 D q1 c=1: p50=1.27 p95=1.46 p99=1.76 ms, 774 tps
+  rep4 D q1 c=2: p50=1.45 p95=1.78 p99=2.60 ms, 1341 tps
+  rep4 D q2 c=1: p50=2.44 p95=3.23 p99=4.44 ms, 390 tps
+  rep4 D q2 c=2: p50=3.39 p95=4.92 p99=6.27 ms, 567 tps
+  rep4 D q3 c=1: p50=0.84 p95=0.94 p99=1.23 ms, 1165 tps
+  rep4 D q3 c=2: p50=1.01 p95=1.39 p99=1.89 ms, 1909 tps
+  rep5 A q1 c=1: p50=0.90 p95=0.99 p99=1.27 ms, 1099 tps
+  rep5 A q1 c=2: p50=1.06 p95=1.37 p99=1.98 ms, 1822 tps
+  rep5 A q2 c=1: p50=2.19 p95=3.66 p99=5.09 ms, 412 tps
+  rep5 A q2 c=2: p50=3.21 p95=4.86 p99=6.30 ms, 596 tps
+  rep5 A q3 c=1: p50=0.71 p95=0.80 p99=0.96 ms, 1389 tps
+  rep5 A q3 c=2: p50=0.88 p95=1.21 p99=1.72 ms, 2195 tps
+  rep5 B q1 c=1: p50=1.21 p95=1.35 p99=1.69 ms, 808 tps
+  rep5 B q1 c=2: p50=1.44 p95=1.82 p99=2.84 ms, 1337 tps
+  rep5 B q2 c=1: p50=2.47 p95=2.90 p99=3.34 ms, 392 tps
+  rep5 B q2 c=2: p50=3.50 p95=5.14 p99=6.74 ms, 550 tps
+  rep5 B q3 c=1: p50=0.82 p95=0.90 p99=1.11 ms, 1207 tps
+  rep5 B q3 c=2: p50=0.99 p95=1.32 p99=1.73 ms, 1968 tps
+  rep5 C q1 c=1: p50=2.42 p95=2.59 p99=2.95 ms, 408 tps
+  rep5 C q1 c=2: p50=2.64 p95=2.95 p99=4.35 ms, 740 tps
+  rep5 C q2 c=1: p50=2.40 p95=5.22 p99=7.50 ms, 338 tps
+  rep5 C q2 c=2: p50=3.41 p95=5.23 p99=6.91 ms, 556 tps
+  rep5 C q3 c=1: p50=2.09 p95=2.27 p99=2.78 ms, 469 tps
+  rep5 C q3 c=2: p50=2.28 p95=2.60 p99=3.77 ms, 854 tps
+  rep5 D q1 c=1: p50=1.30 p95=1.42 p99=1.75 ms, 757 tps
+  rep5 D q1 c=2: p50=1.49 p95=1.82 p99=2.50 ms, 1310 tps
+  rep5 D q2 c=1: p50=2.44 p95=2.93 p99=4.02 ms, 395 tps
+  rep5 D q2 c=2: p50=3.48 p95=5.03 p99=5.79 ms, 556 tps
+  rep5 D q3 c=1: p50=0.83 p95=0.91 p99=1.00 ms, 1185 tps
+  rep5 D q3 c=2: p50=1.01 p95=1.30 p99=1.74 ms, 1931 tps
+  rep5 E q1 c=1: p50=2.06 p95=2.29 p99=3.02 ms, 476 tps
+  rep5 E q1 c=2: p50=2.28 p95=2.58 p99=3.69 ms, 857 tps
+  rep5 E q2 c=1: p50=2.44 p95=2.87 p99=3.45 ms, 399 tps
+  rep5 E q2 c=2: p50=3.41 p95=4.92 p99=5.71 ms, 570 tps
+  rep5 E q3 c=1: p50=1.80 p95=1.90 p99=2.36 ms, 549 tps
+  rep5 E q3 c=2: p50=1.98 p95=2.25 p99=3.10 ms, 990 tps
+
+=== tenants=100 ===
+  loaded 20,100,160 rows, 4,175 MB (207.7 B/row) in 257.8s
+  plan A/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q1 c=1: p50=0.90 p95=0.99 p99=1.14 ms, 1091 tps
+  rep0 (warm-up) A q1 c=2: p50=1.05 p95=1.36 p99=1.89 ms, 1842 tps
+  plan A/q2: telemetry scans = Bitmap Heap Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_mission_time, _hyper_7_190_chunk_telemetry_tenant_device_time, _hyper_7_191_chunk_telemetry_mission_time, _hyper_7_191_chunk_telemetry_tenant_device_time, _hyper_7_192_chunk_telemetry_mission_time, _hyper_7_192_chunk_telemetry_tenant_device_time, _hyper_7_193_chunk_telemetry_mission_time, _hyper_7_193_chunk_telemetry_tenant_device_time, _hyper_7_194_chunk_telemetry_mission_time, _hyper_7_194_chunk_telemetry_tenant_device_time, _hyper_7_195_chunk_telemetry_mission_time, _hyper_7_195_chunk_telemetry_tenant_device_time, _hyper_7_196_chunk_telemetry_mission_time, _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q2 c=1: p50=51.49 p95=149.15 p99=243.17 ms, 17 tps
+  rep0 (warm-up) A q2 c=2: p50=65.85 p95=355.26 p99=458.04 ms, 20 tps
+  plan A/q3: telemetry scans = Index Scan; chunks scanned = 1; indexes = _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q3 c=1: p50=0.69 p95=0.77 p99=0.96 ms, 1425 tps
+  rep0 (warm-up) A q3 c=2: p50=0.83 p95=1.17 p99=1.50 ms, 2330 tps
+  plan B/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_tenant_device_time, _hyper_7_191_chunk_telemetry_tenant_device_time, _hyper_7_192_chunk_telemetry_tenant_device_time, _hyper_7_193_chunk_telemetry_tenant_device_time, _hyper_7_194_chunk_telemetry_tenant_device_time, _hyper_7_195_chunk_telemetry_tenant_device_time, _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q1 c=1: p50=1.23 p95=1.34 p99=1.83 ms, 799 tps
+  rep0 (warm-up) B q1 c=2: p50=1.45 p95=1.80 p99=2.60 ms, 1340 tps
+  plan B/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_mission_time, _hyper_7_190_chunk_telemetry_tenant_device_time, _hyper_7_191_chunk_telemetry_mission_time, _hyper_7_191_chunk_telemetry_tenant_device_time, _hyper_7_192_chunk_telemetry_mission_time, _hyper_7_192_chunk_telemetry_tenant_device_time, _hyper_7_193_chunk_telemetry_mission_time, _hyper_7_193_chunk_telemetry_tenant_device_time, _hyper_7_194_chunk_telemetry_mission_time, _hyper_7_194_chunk_telemetry_tenant_device_time, _hyper_7_195_chunk_telemetry_mission_time, _hyper_7_195_chunk_telemetry_tenant_device_time, _hyper_7_196_chunk_telemetry_mission_time, _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q2 c=1: p50=8.49 p95=97.87 p99=184.43 ms, 41 tps
+  rep0 (warm-up) B q2 c=2: p50=19.41 p95=164.25 p99=301.43 ms, 41 tps
+  plan B/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q3 c=1: p50=0.84 p95=0.92 p99=1.20 ms, 1156 tps
+  rep0 (warm-up) B q3 c=2: p50=1.00 p95=1.34 p99=1.77 ms, 1938 tps
+  plan C/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_time_idx, _hyper_7_191_chunk_telemetry_time_idx, _hyper_7_192_chunk_telemetry_time_idx, _hyper_7_193_chunk_telemetry_time_idx, _hyper_7_194_chunk_telemetry_time_idx, _hyper_7_195_chunk_telemetry_time_idx, _hyper_7_196_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q1 c=1: p50=13.77 p95=15.47 p99=19.11 ms, 71 tps
+  rep0 (warm-up) C q1 c=2: p50=13.98 p95=15.32 p99=20.87 ms, 140 tps
+  plan C/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_mission_time, _hyper_7_191_chunk_telemetry_mission_time, _hyper_7_192_chunk_telemetry_mission_time, _hyper_7_193_chunk_telemetry_mission_time, _hyper_7_194_chunk_telemetry_mission_time, _hyper_7_195_chunk_telemetry_mission_time, _hyper_7_196_chunk_telemetry_mission_time, memberships_pkey
+  rep0 (warm-up) C q2 c=1: p50=4.51 p95=78.43 p99=196.30 ms, 63 tps
+  rep0 (warm-up) C q2 c=2: p50=4.87 p95=7.29 p99=10.28 ms, 394 tps
+  plan C/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_7_196_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q3 c=1: p50=28.33 p95=30.59 p99=35.06 ms, 35 tps
+  rep0 (warm-up) C q3 c=2: p50=30.46 p95=34.42 p99=42.75 ms, 65 tps
+  plan D/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_tenant_device_time, _hyper_7_191_chunk_telemetry_tenant_device_time, _hyper_7_192_chunk_telemetry_tenant_device_time, _hyper_7_193_chunk_telemetry_tenant_device_time, _hyper_7_194_chunk_telemetry_tenant_device_time, _hyper_7_195_chunk_telemetry_tenant_device_time, _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q1 c=1: p50=1.27 p95=1.42 p99=1.72 ms, 772 tps
+  rep0 (warm-up) D q1 c=2: p50=1.50 p95=1.87 p99=2.69 ms, 1298 tps
+  plan D/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_mission_time, _hyper_7_190_chunk_telemetry_tenant_device_time, _hyper_7_191_chunk_telemetry_mission_time, _hyper_7_191_chunk_telemetry_tenant_device_time, _hyper_7_192_chunk_telemetry_mission_time, _hyper_7_192_chunk_telemetry_tenant_device_time, _hyper_7_193_chunk_telemetry_mission_time, _hyper_7_193_chunk_telemetry_tenant_device_time, _hyper_7_194_chunk_telemetry_mission_time, _hyper_7_194_chunk_telemetry_tenant_device_time, _hyper_7_195_chunk_telemetry_mission_time, _hyper_7_195_chunk_telemetry_tenant_device_time, _hyper_7_196_chunk_telemetry_mission_time, _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q2 c=1: p50=52.41 p95=100.66 p99=143.35 ms, 19 tps
+  rep0 (warm-up) D q2 c=2: p50=14.79 p95=147.14 p99=303.48 ms, 46 tps
+  plan D/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q3 c=1: p50=0.82 p95=0.89 p99=1.13 ms, 1187 tps
+  rep0 (warm-up) D q3 c=2: p50=1.00 p95=1.34 p99=1.76 ms, 1936 tps
+  plan E/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_tenant_device_time, _hyper_7_191_chunk_telemetry_tenant_device_time, _hyper_7_192_chunk_telemetry_tenant_device_time, _hyper_7_193_chunk_telemetry_tenant_device_time, _hyper_7_194_chunk_telemetry_tenant_device_time, _hyper_7_195_chunk_telemetry_tenant_device_time, _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q1 c=1: p50=27.87 p95=134.98 p99=1065.08 ms, 17 tps
+  rep0 (warm-up) E q1 c=2: p50=27.25 p95=51.87 p99=60.37 ms, 66 tps
+  plan E/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_7_190_chunk_telemetry_mission_time, _hyper_7_191_chunk_telemetry_mission_time, _hyper_7_192_chunk_telemetry_mission_time, _hyper_7_193_chunk_telemetry_mission_time, _hyper_7_194_chunk_telemetry_mission_time, _hyper_7_195_chunk_telemetry_mission_time, _hyper_7_196_chunk_telemetry_mission_time
+  rep0 (warm-up) E q2 c=1: p50=4.12 p95=5.98 p99=8.17 ms, 240 tps
+  rep0 (warm-up) E q2 c=2: p50=4.08 p95=6.25 p99=8.11 ms, 469 tps
+  plan E/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_7_196_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q3 c=1: p50=3.62 p95=7.10 p99=10.35 ms, 251 tps
+  rep0 (warm-up) E q3 c=2: p50=3.88 p95=4.46 p99=5.69 ms, 508 tps
+  rep1 B q1 c=1: p50=1.25 p95=1.42 p99=1.88 ms, 779 tps
+  rep1 B q1 c=2: p50=1.44 p95=1.75 p99=2.49 ms, 1359 tps
+  rep1 B q2 c=1: p50=27.38 p95=104.73 p99=170.79 ms, 28 tps
+  rep1 B q2 c=2: p50=23.20 p95=211.78 p99=299.93 ms, 35 tps
+  rep1 B q3 c=1: p50=0.83 p95=0.92 p99=1.22 ms, 1166 tps
+  rep1 B q3 c=2: p50=1.00 p95=1.33 p99=1.73 ms, 1943 tps
+  rep1 C q1 c=1: p50=13.87 p95=15.34 p99=17.46 ms, 71 tps
+  rep1 C q1 c=2: p50=14.28 p95=15.85 p99=22.01 ms, 137 tps
+  rep1 C q2 c=1: p50=4.62 p95=42.18 p99=134.75 ms, 95 tps
+  rep1 C q2 c=2: p50=4.68 p95=6.83 p99=8.65 ms, 420 tps
+  rep1 C q3 c=1: p50=27.68 p95=29.99 p99=37.49 ms, 36 tps
+  rep1 C q3 c=2: p50=29.51 p95=33.65 p99=41.52 ms, 67 tps
+  rep1 D q1 c=1: p50=1.28 p95=1.41 p99=1.88 ms, 767 tps
+  rep1 D q1 c=2: p50=1.48 p95=1.81 p99=2.60 ms, 1314 tps
+  rep1 D q2 c=1: p50=37.30 p95=91.46 p99=115.08 ms, 26 tps
+  rep1 D q2 c=2: p50=15.95 p95=148.20 p99=258.44 ms, 51 tps
+  rep1 D q3 c=1: p50=0.81 p95=0.91 p99=1.18 ms, 1179 tps
+  rep1 D q3 c=2: p50=1.00 p95=1.35 p99=1.76 ms, 1940 tps
+  rep1 E q1 c=1: p50=36.02 p95=261.37 p99=917.33 ms, 14 tps
+  rep1 E q1 c=2: p50=38.68 p95=68.38 p99=81.09 ms, 49 tps
+  rep1 E q2 c=1: p50=3.95 p95=6.20 p99=8.68 ms, 249 tps
+  rep1 E q2 c=2: p50=3.90 p95=5.95 p99=7.44 ms, 490 tps
+  rep1 E q3 c=1: p50=3.43 p95=6.57 p99=9.90 ms, 265 tps
+  rep1 E q3 c=2: p50=3.78 p95=4.28 p99=5.41 ms, 525 tps
+  rep1 A q1 c=1: p50=0.91 p95=1.00 p99=1.22 ms, 1082 tps
+  rep1 A q1 c=2: p50=1.03 p95=1.31 p99=1.74 ms, 1882 tps
+  rep1 A q2 c=1: p50=17.39 p95=115.99 p99=171.63 ms, 33 tps
+  rep1 A q2 c=2: p50=30.39 p95=213.21 p99=321.92 ms, 32 tps
+  rep1 A q3 c=1: p50=0.70 p95=0.79 p99=0.97 ms, 1372 tps
+  rep1 A q3 c=2: p50=0.84 p95=1.18 p99=1.53 ms, 2285 tps
+  rep2 C q1 c=1: p50=13.80 p95=14.91 p99=17.49 ms, 71 tps
+  rep2 C q1 c=2: p50=14.35 p95=15.76 p99=20.01 ms, 137 tps
+  rep2 C q2 c=1: p50=6.90 p95=119.04 p99=190.40 ms, 43 tps
+  rep2 C q2 c=2: p50=5.20 p95=7.77 p99=14.12 ms, 352 tps
+  rep2 C q3 c=1: p50=29.73 p95=32.15 p99=36.58 ms, 34 tps
+  rep2 C q3 c=2: p50=31.62 p95=36.28 p99=45.45 ms, 62 tps
+  rep2 D q1 c=1: p50=1.31 p95=1.43 p99=1.85 ms, 754 tps
+  rep2 D q1 c=2: p50=1.50 p95=1.84 p99=2.58 ms, 1300 tps
+  rep2 D q2 c=1: p50=43.12 p95=91.24 p99=143.34 ms, 24 tps
+  rep2 D q2 c=2: p50=15.40 p95=152.06 p99=257.54 ms, 53 tps
+  rep2 D q3 c=1: p50=0.83 p95=0.91 p99=1.15 ms, 1164 tps
+  rep2 D q3 c=2: p50=0.99 p95=1.36 p99=1.78 ms, 1942 tps
+  rep2 E q1 c=1: p50=35.17 p95=248.23 p99=904.95 ms, 13 tps
+  rep2 E q1 c=2: p50=38.54 p95=67.56 p99=79.03 ms, 50 tps
+  rep2 E q2 c=1: p50=4.11 p95=6.17 p99=8.84 ms, 241 tps
+  rep2 E q2 c=2: p50=3.95 p95=6.19 p99=7.58 ms, 475 tps
+  rep2 E q3 c=1: p50=3.55 p95=5.61 p99=8.55 ms, 265 tps
+  rep2 E q3 c=2: p50=3.70 p95=4.23 p99=5.60 ms, 537 tps
+  rep2 A q1 c=1: p50=0.90 p95=0.99 p99=1.09 ms, 1100 tps
+  rep2 A q1 c=2: p50=1.07 p95=1.38 p99=1.90 ms, 1819 tps
+  rep2 A q2 c=1: p50=16.98 p95=107.92 p99=185.28 ms, 33 tps
+  rep2 A q2 c=2: p50=26.47 p95=196.42 p99=327.57 ms, 34 tps
+  rep2 A q3 c=1: p50=0.68 p95=0.76 p99=0.96 ms, 1419 tps
+  rep2 A q3 c=2: p50=0.86 p95=1.20 p99=1.56 ms, 2239 tps
+  rep2 B q1 c=1: p50=1.22 p95=1.31 p99=1.43 ms, 806 tps
+  rep2 B q1 c=2: p50=1.45 p95=1.75 p99=2.43 ms, 1352 tps
+  rep2 B q2 c=1: p50=8.60 p95=62.37 p99=105.90 ms, 53 tps
+  rep2 B q2 c=2: p50=17.25 p95=118.67 p99=234.14 ms, 57 tps
+  rep2 B q3 c=1: p50=0.84 p95=0.93 p99=1.30 ms, 1157 tps
+  rep2 B q3 c=2: p50=1.01 p95=1.35 p99=1.80 ms, 1914 tps
+  rep3 D q1 c=1: p50=1.30 p95=1.45 p99=1.57 ms, 758 tps
+  rep3 D q1 c=2: p50=1.49 p95=1.75 p99=2.41 ms, 1320 tps
+  rep3 D q2 c=1: p50=14.47 p95=77.14 p99=115.76 ms, 39 tps
+  rep3 D q2 c=2: p50=18.59 p95=134.82 p99=211.57 ms, 50 tps
+  rep3 D q3 c=1: p50=0.84 p95=0.94 p99=1.27 ms, 1141 tps
+  rep3 D q3 c=2: p50=0.99 p95=1.36 p99=1.77 ms, 1948 tps
+  rep3 E q1 c=1: p50=34.56 p95=136.24 p99=604.29 ms, 19 tps
+  rep3 E q1 c=2: p50=30.41 p95=49.64 p99=59.85 ms, 61 tps
+  rep3 E q2 c=1: p50=4.14 p95=5.96 p99=8.18 ms, 241 tps
+  rep3 E q2 c=2: p50=4.05 p95=6.26 p99=7.76 ms, 469 tps
+  rep3 E q3 c=1: p50=3.52 p95=6.33 p99=9.43 ms, 260 tps
+  rep3 E q3 c=2: p50=3.94 p95=4.49 p99=5.85 ms, 502 tps
+  rep3 A q1 c=1: p50=0.89 p95=1.00 p99=1.27 ms, 1102 tps
+  rep3 A q1 c=2: p50=1.07 p95=1.38 p99=1.89 ms, 1815 tps
+  rep3 A q2 c=1: p50=23.29 p95=98.38 p99=162.17 ms, 31 tps
+  rep3 A q2 c=2: p50=21.47 p95=197.32 p99=306.55 ms, 36 tps
+  rep3 A q3 c=1: p50=0.69 p95=0.79 p99=1.10 ms, 1379 tps
+  rep3 A q3 c=2: p50=0.85 p95=1.20 p99=1.58 ms, 2270 tps
+  rep3 B q1 c=1: p50=1.23 p95=1.36 p99=1.62 ms, 798 tps
+  rep3 B q1 c=2: p50=1.45 p95=1.80 p99=2.53 ms, 1346 tps
+  rep3 B q2 c=1: p50=8.42 p95=57.72 p99=89.93 ms, 56 tps
+  rep3 B q2 c=2: p50=14.16 p95=116.22 p99=218.04 ms, 60 tps
+  rep3 B q3 c=1: p50=0.83 p95=0.91 p99=1.15 ms, 1186 tps
+  rep3 B q3 c=2: p50=0.99 p95=1.32 p99=1.74 ms, 1964 tps
+  rep3 C q1 c=1: p50=13.58 p95=14.55 p99=15.96 ms, 73 tps
+  rep3 C q1 c=2: p50=14.12 p95=16.07 p99=25.03 ms, 138 tps
+  rep3 C q2 c=1: p50=6.00 p95=98.99 p99=189.01 ms, 47 tps
+  rep3 C q2 c=2: p50=4.99 p95=7.36 p99=11.02 ms, 388 tps
+  rep3 C q3 c=1: p50=28.58 p95=30.85 p99=35.23 ms, 35 tps
+  rep3 C q3 c=2: p50=30.95 p95=34.40 p99=43.42 ms, 64 tps
+  rep4 E q1 c=1: p50=45.23 p95=61.55 p99=82.16 ms, 23 tps
+  rep4 E q1 c=2: p50=31.20 p95=68.63 p99=81.89 ms, 55 tps
+  rep4 E q2 c=1: p50=3.80 p95=5.81 p99=8.28 ms, 261 tps
+  rep4 E q2 c=2: p50=3.88 p95=6.19 p99=7.75 ms, 483 tps
+  rep4 E q3 c=1: p50=3.75 p95=4.42 p99=6.44 ms, 261 tps
+  rep4 E q3 c=2: p50=3.90 p95=4.55 p99=6.17 ms, 505 tps
+  rep4 A q1 c=1: p50=0.91 p95=1.00 p99=1.28 ms, 1081 tps
+  rep4 A q1 c=2: p50=1.08 p95=1.49 p99=1.97 ms, 1775 tps
+  rep4 A q2 c=1: p50=9.93 p95=121.09 p99=176.13 ms, 37 tps
+  rep4 A q2 c=2: p50=33.26 p95=226.76 p99=380.85 ms, 31 tps
+  rep4 A q3 c=1: p50=0.69 p95=0.82 p99=1.08 ms, 1379 tps
+  rep4 A q3 c=2: p50=0.86 p95=1.24 p99=1.60 ms, 2237 tps
+  rep4 B q1 c=1: p50=1.25 p95=1.39 p99=1.74 ms, 784 tps
+  rep4 B q1 c=2: p50=1.47 p95=1.79 p99=2.56 ms, 1329 tps
+  rep4 B q2 c=1: p50=8.42 p95=63.02 p99=99.65 ms, 52 tps
+  rep4 B q2 c=2: p50=13.59 p95=103.10 p99=205.18 ms, 68 tps
+  rep4 B q3 c=1: p50=0.83 p95=0.94 p99=1.22 ms, 1177 tps
+  rep4 B q3 c=2: p50=1.00 p95=1.34 p99=1.77 ms, 1942 tps
+  rep4 C q1 c=1: p50=13.69 p95=15.05 p99=16.27 ms, 72 tps
+  rep4 C q1 c=2: p50=14.06 p95=15.56 p99=21.91 ms, 140 tps
+  rep4 C q2 c=1: p50=3.92 p95=35.73 p99=121.75 ms, 110 tps
+  rep4 C q2 c=2: p50=4.47 p95=6.49 p99=7.99 ms, 444 tps
+  rep4 C q3 c=1: p50=28.93 p95=32.61 p99=38.33 ms, 34 tps
+  rep4 C q3 c=2: p50=30.98 p95=34.54 p99=42.41 ms, 64 tps
+  rep4 D q1 c=1: p50=1.27 p95=1.38 p99=1.77 ms, 772 tps
+  rep4 D q1 c=2: p50=1.48 p95=1.78 p99=2.47 ms, 1323 tps
+  rep4 D q2 c=1: p50=28.71 p95=80.55 p99=107.83 ms, 30 tps
+  rep4 D q2 c=2: p50=16.79 p95=136.01 p99=247.62 ms, 53 tps
+  rep4 D q3 c=1: p50=0.83 p95=0.93 p99=1.23 ms, 1156 tps
+  rep4 D q3 c=2: p50=0.97 p95=1.29 p99=1.72 ms, 1993 tps
+  rep5 A q1 c=1: p50=0.89 p95=0.99 p99=1.19 ms, 1103 tps
+  rep5 A q1 c=2: p50=1.06 p95=1.43 p99=1.96 ms, 1804 tps
+  rep5 A q2 c=1: p50=10.14 p95=84.33 p99=146.67 ms, 44 tps
+  rep5 A q2 c=2: p50=18.56 p95=118.26 p99=186.45 ms, 52 tps
+  rep5 A q3 c=1: p50=0.71 p95=0.80 p99=1.00 ms, 1386 tps
+  rep5 A q3 c=2: p50=0.86 p95=1.18 p99=1.53 ms, 2262 tps
+  rep5 B q1 c=1: p50=1.29 p95=1.39 p99=1.78 ms, 766 tps
+  rep5 B q1 c=2: p50=1.45 p95=1.84 p99=2.58 ms, 1334 tps
+  rep5 B q2 c=1: p50=8.67 p95=65.08 p99=130.36 ms, 54 tps
+  rep5 B q2 c=2: p50=14.27 p95=104.79 p99=175.83 ms, 68 tps
+  rep5 B q3 c=1: p50=0.83 p95=0.93 p99=1.23 ms, 1156 tps
+  rep5 B q3 c=2: p50=1.00 p95=1.43 p99=1.83 ms, 1917 tps
+  rep5 C q1 c=1: p50=13.88 p95=14.49 p99=16.64 ms, 71 tps
+  rep5 C q1 c=2: p50=14.49 p95=16.62 p99=22.89 ms, 134 tps
+  rep5 C q2 c=1: p50=4.25 p95=39.97 p99=126.19 ms, 105 tps
+  rep5 C q2 c=2: p50=4.48 p95=6.54 p99=8.10 ms, 441 tps
+  rep5 C q3 c=1: p50=28.27 p95=31.41 p99=37.82 ms, 35 tps
+  rep5 C q3 c=2: p50=30.47 p95=35.13 p99=42.87 ms, 65 tps
+  rep5 D q1 c=1: p50=1.31 p95=1.42 p99=1.84 ms, 752 tps
+  rep5 D q1 c=2: p50=1.51 p95=1.85 p99=2.60 ms, 1292 tps
+  rep5 D q2 c=1: p50=28.74 p95=78.48 p99=102.67 ms, 31 tps
+  rep5 D q2 c=2: p50=19.36 p95=191.84 p99=283.75 ms, 44 tps
+  rep5 D q3 c=1: p50=0.82 p95=0.91 p99=1.22 ms, 1177 tps
+  rep5 D q3 c=2: p50=0.99 p95=1.34 p99=1.74 ms, 1950 tps
+  rep5 E q1 c=1: p50=31.69 p95=208.36 p99=763.12 ms, 16 tps
+  rep5 E q1 c=2: p50=36.59 p95=62.23 p99=76.84 ms, 52 tps
+  rep5 E q2 c=1: p50=4.00 p95=5.88 p99=8.70 ms, 245 tps
+  rep5 E q2 c=2: p50=3.82 p95=6.23 p99=7.43 ms, 480 tps
+  rep5 E q3 c=1: p50=3.70 p95=5.42 p99=8.19 ms, 253 tps
+  rep5 E q3 c=2: p50=3.73 p95=4.26 p99=5.40 ms, 531 tps
+
+=== tenants=1000 ===
+  loaded 20,100,155 rows, 3,566 MB (177.4 B/row) in 263.0s
+  plan A/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q1 c=1: p50=0.92 p95=1.04 p99=1.28 ms, 1065 tps
+  rep0 (warm-up) A q1 c=2: p50=1.09 p95=1.38 p99=1.93 ms, 1785 tps
+  plan A/q2: telemetry scans = Bitmap Heap Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_mission_time, _hyper_8_197_chunk_telemetry_tenant_device_time, _hyper_8_198_chunk_telemetry_mission_time, _hyper_8_198_chunk_telemetry_tenant_device_time, _hyper_8_199_chunk_telemetry_mission_time, _hyper_8_199_chunk_telemetry_tenant_device_time, _hyper_8_200_chunk_telemetry_mission_time, _hyper_8_200_chunk_telemetry_tenant_device_time, _hyper_8_201_chunk_telemetry_mission_time, _hyper_8_201_chunk_telemetry_tenant_device_time, _hyper_8_202_chunk_telemetry_mission_time, _hyper_8_202_chunk_telemetry_tenant_device_time, _hyper_8_203_chunk_telemetry_mission_time, _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q2 c=1: p50=7.06 p95=18.72 p99=22.95 ms, 114 tps
+  rep0 (warm-up) A q2 c=2: p50=9.38 p95=25.02 p99=31.19 ms, 173 tps
+  plan A/q3: telemetry scans = Index Scan; chunks scanned = 1; indexes = _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q3 c=1: p50=0.72 p95=1.04 p99=2.08 ms, 1270 tps
+  rep0 (warm-up) A q3 c=2: p50=0.86 p95=1.18 p99=1.56 ms, 2238 tps
+  plan B/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_tenant_device_time, _hyper_8_198_chunk_telemetry_tenant_device_time, _hyper_8_199_chunk_telemetry_tenant_device_time, _hyper_8_200_chunk_telemetry_tenant_device_time, _hyper_8_201_chunk_telemetry_tenant_device_time, _hyper_8_202_chunk_telemetry_tenant_device_time, _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q1 c=1: p50=1.24 p95=1.33 p99=1.62 ms, 790 tps
+  rep0 (warm-up) B q1 c=2: p50=1.46 p95=1.76 p99=2.47 ms, 1341 tps
+  plan B/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_mission_time, _hyper_8_197_chunk_telemetry_tenant_device_time, _hyper_8_198_chunk_telemetry_mission_time, _hyper_8_198_chunk_telemetry_tenant_device_time, _hyper_8_199_chunk_telemetry_mission_time, _hyper_8_199_chunk_telemetry_tenant_device_time, _hyper_8_200_chunk_telemetry_mission_time, _hyper_8_200_chunk_telemetry_tenant_device_time, _hyper_8_201_chunk_telemetry_mission_time, _hyper_8_201_chunk_telemetry_tenant_device_time, _hyper_8_202_chunk_telemetry_mission_time, _hyper_8_202_chunk_telemetry_tenant_device_time, _hyper_8_203_chunk_telemetry_mission_time, _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q2 c=1: p50=6.75 p95=17.62 p99=22.75 ms, 120 tps
+  rep0 (warm-up) B q2 c=2: p50=10.72 p95=25.36 p99=32.73 ms, 162 tps
+  plan B/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q3 c=1: p50=0.85 p95=1.26 p99=2.56 ms, 1052 tps
+  rep0 (warm-up) B q3 c=2: p50=1.01 p95=1.31 p99=1.73 ms, 1937 tps
+  plan C/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_time_idx, _hyper_8_198_chunk_telemetry_time_idx, _hyper_8_199_chunk_telemetry_time_idx, _hyper_8_200_chunk_telemetry_time_idx, _hyper_8_201_chunk_telemetry_time_idx, _hyper_8_202_chunk_telemetry_time_idx, _hyper_8_203_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q1 c=1: p50=131.21 p95=134.79 p99=146.76 ms, 8 tps
+  rep0 (warm-up) C q1 c=2: p50=133.58 p95=152.77 p99=175.36 ms, 15 tps
+  plan C/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_mission_time, _hyper_8_198_chunk_telemetry_mission_time, _hyper_8_199_chunk_telemetry_mission_time, _hyper_8_200_chunk_telemetry_mission_time, _hyper_8_201_chunk_telemetry_mission_time, _hyper_8_202_chunk_telemetry_mission_time, _hyper_8_203_chunk_telemetry_mission_time, memberships_pkey
+  rep0 (warm-up) C q2 c=1: p50=5.31 p95=13.26 p99=23.70 ms, 164 tps
+  rep0 (warm-up) C q2 c=2: p50=4.06 p95=8.64 p99=12.05 ms, 424 tps
+  plan C/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_8_203_chunk_telemetry_tenant_device_time, memberships_pkey
+  rep0 (warm-up) C q3 c=1: p50=42.78 p95=46.65 p99=58.07 ms, 23 tps
+  rep0 (warm-up) C q3 c=2: p50=45.30 p95=48.66 p99=58.46 ms, 44 tps
+  plan D/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_tenant_device_time, _hyper_8_198_chunk_telemetry_tenant_device_time, _hyper_8_199_chunk_telemetry_tenant_device_time, _hyper_8_200_chunk_telemetry_tenant_device_time, _hyper_8_201_chunk_telemetry_tenant_device_time, _hyper_8_202_chunk_telemetry_tenant_device_time, _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q1 c=1: p50=1.32 p95=1.45 p99=1.89 ms, 746 tps
+  rep0 (warm-up) D q1 c=2: p50=1.49 p95=1.80 p99=2.60 ms, 1301 tps
+  plan D/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_mission_time, _hyper_8_197_chunk_telemetry_tenant_device_time, _hyper_8_198_chunk_telemetry_mission_time, _hyper_8_198_chunk_telemetry_tenant_device_time, _hyper_8_199_chunk_telemetry_mission_time, _hyper_8_199_chunk_telemetry_tenant_device_time, _hyper_8_200_chunk_telemetry_mission_time, _hyper_8_200_chunk_telemetry_tenant_device_time, _hyper_8_201_chunk_telemetry_mission_time, _hyper_8_201_chunk_telemetry_tenant_device_time, _hyper_8_202_chunk_telemetry_mission_time, _hyper_8_202_chunk_telemetry_tenant_device_time, _hyper_8_203_chunk_telemetry_mission_time, _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q2 c=1: p50=14.23 p95=22.48 p99=26.59 ms, 72 tps
+  rep0 (warm-up) D q2 c=2: p50=9.28 p95=26.30 p99=34.38 ms, 174 tps
+  plan D/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q3 c=1: p50=0.84 p95=1.30 p99=2.31 ms, 1064 tps
+  rep0 (warm-up) D q3 c=2: p50=1.01 p95=1.32 p99=1.74 ms, 1931 tps
+  plan E/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_tenant_device_time, _hyper_8_198_chunk_telemetry_tenant_device_time, _hyper_8_199_chunk_telemetry_tenant_device_time, _hyper_8_200_chunk_telemetry_tenant_device_time, _hyper_8_201_chunk_telemetry_tenant_device_time, _hyper_8_202_chunk_telemetry_tenant_device_time, _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q1 c=1: p50=4.25 p95=7.71 p99=10.21 ms, 215 tps
+  rep0 (warm-up) E q1 c=2: p50=3.96 p95=7.17 p99=10.40 ms, 449 tps
+  plan E/q2: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_8_197_chunk_telemetry_mission_time, _hyper_8_198_chunk_telemetry_mission_time, _hyper_8_199_chunk_telemetry_mission_time, _hyper_8_200_chunk_telemetry_mission_time, _hyper_8_201_chunk_telemetry_mission_time, _hyper_8_202_chunk_telemetry_mission_time, _hyper_8_203_chunk_telemetry_mission_time
+  rep0 (warm-up) E q2 c=1: p50=5.08 p95=6.94 p99=8.82 ms, 204 tps
+  rep0 (warm-up) E q2 c=2: p50=4.32 p95=8.98 p99=12.49 ms, 401 tps
+  plan E/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_8_203_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q3 c=1: p50=1.29 p95=2.17 p99=3.16 ms, 678 tps
+  rep0 (warm-up) E q3 c=2: p50=1.46 p95=1.80 p99=2.62 ms, 1332 tps
+  rep1 B q1 c=1: p50=1.28 p95=1.41 p99=1.67 ms, 770 tps
+  rep1 B q1 c=2: p50=1.48 p95=1.78 p99=2.48 ms, 1316 tps
+  rep1 B q2 c=1: p50=13.13 p95=20.92 p99=24.19 ms, 78 tps
+  rep1 B q2 c=2: p50=8.68 p95=22.86 p99=31.18 ms, 189 tps
+  rep1 B q3 c=1: p50=0.86 p95=1.26 p99=2.40 ms, 1057 tps
+  rep1 B q3 c=2: p50=1.03 p95=1.40 p99=1.87 ms, 1866 tps
+  rep1 C q1 c=1: p50=132.24 p95=140.27 p99=158.80 ms, 7 tps
+  rep1 C q1 c=2: p50=133.17 p95=152.13 p99=173.11 ms, 15 tps
+  rep1 C q2 c=1: p50=5.17 p95=12.31 p99=21.32 ms, 175 tps
+  rep1 C q2 c=2: p50=4.14 p95=8.57 p99=11.89 ms, 417 tps
+  rep1 C q3 c=1: p50=43.51 p95=47.66 p99=51.90 ms, 22 tps
+  rep1 C q3 c=2: p50=45.59 p95=50.42 p99=61.12 ms, 43 tps
+  rep1 D q1 c=1: p50=1.29 p95=1.44 p99=1.91 ms, 757 tps
+  rep1 D q1 c=2: p50=1.50 p95=1.80 p99=2.39 ms, 1305 tps
+  rep1 D q2 c=1: p50=13.05 p95=20.50 p99=23.56 ms, 79 tps
+  rep1 D q2 c=2: p50=9.52 p95=24.26 p99=31.51 ms, 178 tps
+  rep1 D q3 c=1: p50=0.85 p95=1.20 p99=1.94 ms, 1097 tps
+  rep1 D q3 c=2: p50=1.01 p95=1.35 p99=1.84 ms, 1914 tps
+  rep1 E q1 c=1: p50=4.49 p95=7.82 p99=10.62 ms, 207 tps
+  rep1 E q1 c=2: p50=4.03 p95=7.35 p99=10.14 ms, 441 tps
+  rep1 E q2 c=1: p50=5.08 p95=7.08 p99=9.08 ms, 203 tps
+  rep1 E q2 c=2: p50=4.22 p95=8.64 p99=11.96 ms, 413 tps
+  rep1 E q3 c=1: p50=1.29 p95=2.06 p99=3.05 ms, 689 tps
+  rep1 E q3 c=2: p50=1.40 p95=1.70 p99=2.50 ms, 1389 tps
+  rep1 A q1 c=1: p50=0.94 p95=1.03 p99=1.28 ms, 1053 tps
+  rep1 A q1 c=2: p50=1.08 p95=1.39 p99=1.87 ms, 1809 tps
+  rep1 A q2 c=1: p50=12.03 p95=19.85 p99=23.68 ms, 85 tps
+  rep1 A q2 c=2: p50=9.38 p95=24.17 p99=34.76 ms, 180 tps
+  rep1 A q3 c=1: p50=0.73 p95=1.05 p99=1.83 ms, 1260 tps
+  rep1 A q3 c=2: p50=0.88 p95=1.20 p99=1.53 ms, 2212 tps
+  rep2 C q1 c=1: p50=132.93 p95=144.52 p99=157.38 ms, 7 tps
+  rep2 C q1 c=2: p50=133.12 p95=147.80 p99=179.44 ms, 15 tps
+  rep2 C q2 c=1: p50=5.47 p95=13.11 p99=22.14 ms, 161 tps
+  rep2 C q2 c=2: p50=4.23 p95=9.25 p99=13.08 ms, 401 tps
+  rep2 C q3 c=1: p50=44.66 p95=47.99 p99=49.89 ms, 21 tps
+  rep2 C q3 c=2: p50=46.03 p95=48.59 p99=62.39 ms, 43 tps
+  rep2 D q1 c=1: p50=1.30 p95=1.40 p99=1.68 ms, 758 tps
+  rep2 D q1 c=2: p50=1.51 p95=1.82 p99=2.60 ms, 1300 tps
+  rep2 D q2 c=1: p50=13.25 p95=20.82 p99=25.91 ms, 76 tps
+  rep2 D q2 c=2: p50=8.95 p95=24.36 p99=32.71 ms, 187 tps
+  rep2 D q3 c=1: p50=0.85 p95=1.24 p99=2.12 ms, 1076 tps
+  rep2 D q3 c=2: p50=1.02 p95=1.32 p99=1.75 ms, 1919 tps
+  rep2 E q1 c=1: p50=4.15 p95=7.47 p99=9.56 ms, 220 tps
+  rep2 E q1 c=2: p50=4.07 p95=7.07 p99=10.09 ms, 441 tps
+  rep2 E q2 c=1: p50=4.98 p95=6.83 p99=8.33 ms, 210 tps
+  rep2 E q2 c=2: p50=4.11 p95=8.45 p99=11.35 ms, 420 tps
+  rep2 E q3 c=1: p50=1.26 p95=2.01 p99=4.09 ms, 688 tps
+  rep2 E q3 c=2: p50=1.43 p95=1.78 p99=2.57 ms, 1356 tps
+  rep2 A q1 c=1: p50=0.93 p95=1.02 p99=1.37 ms, 1061 tps
+  rep2 A q1 c=2: p50=1.11 p95=1.46 p99=2.01 ms, 1740 tps
+  rep2 A q2 c=1: p50=13.08 p95=20.97 p99=25.63 ms, 78 tps
+  rep2 A q2 c=2: p50=8.27 p95=22.81 p99=30.64 ms, 200 tps
+  rep2 A q3 c=1: p50=0.73 p95=1.07 p99=1.79 ms, 1256 tps
+  rep2 A q3 c=2: p50=0.89 p95=1.24 p99=1.59 ms, 2170 tps
+  rep2 B q1 c=1: p50=1.25 p95=1.37 p99=1.73 ms, 784 tps
+  rep2 B q1 c=2: p50=1.47 p95=1.81 p99=2.69 ms, 1318 tps
+  rep2 B q2 c=1: p50=9.81 p95=19.58 p99=24.32 ms, 95 tps
+  rep2 B q2 c=2: p50=8.89 p95=22.20 p99=30.49 ms, 191 tps
+  rep2 B q3 c=1: p50=0.85 p95=1.22 p99=1.99 ms, 1079 tps
+  rep2 B q3 c=2: p50=1.03 p95=1.41 p99=1.88 ms, 1860 tps
+  rep3 D q1 c=1: p50=1.31 p95=1.40 p99=1.56 ms, 754 tps
+  rep3 D q1 c=2: p50=1.53 p95=1.84 p99=2.60 ms, 1276 tps
+  rep3 D q2 c=1: p50=8.89 p95=17.43 p99=22.51 ms, 104 tps
+  rep3 D q2 c=2: p50=9.42 p95=22.06 p99=28.23 ms, 186 tps
+  rep3 D q3 c=1: p50=0.86 p95=1.23 p99=2.12 ms, 1065 tps
+  rep3 D q3 c=2: p50=1.02 p95=1.37 p99=1.82 ms, 1898 tps
+  rep3 E q1 c=1: p50=4.00 p95=7.01 p99=9.35 ms, 229 tps
+  rep3 E q1 c=2: p50=3.83 p95=6.11 p99=8.59 ms, 479 tps
+  rep3 E q2 c=1: p50=5.03 p95=7.20 p99=9.57 ms, 202 tps
+  rep3 E q2 c=2: p50=4.14 p95=8.37 p99=11.56 ms, 424 tps
+  rep3 E q3 c=1: p50=1.28 p95=2.09 p99=3.25 ms, 688 tps
+  rep3 E q3 c=2: p50=1.45 p95=1.86 p99=2.78 ms, 1325 tps
+  rep3 A q1 c=1: p50=0.93 p95=1.00 p99=1.15 ms, 1061 tps
+  rep3 A q1 c=2: p50=1.11 p95=1.45 p99=2.01 ms, 1741 tps
+  rep3 A q2 c=1: p50=12.06 p95=20.04 p99=24.63 ms, 83 tps
+  rep3 A q2 c=2: p50=8.90 p95=21.57 p99=28.58 ms, 194 tps
+  rep3 A q3 c=1: p50=0.74 p95=1.06 p99=1.93 ms, 1246 tps
+  rep3 A q3 c=2: p50=0.88 p95=1.21 p99=1.60 ms, 2197 tps
+  rep3 B q1 c=1: p50=1.26 p95=1.34 p99=1.51 ms, 784 tps
+  rep3 B q1 c=2: p50=1.47 p95=1.77 p99=2.50 ms, 1335 tps
+  rep3 B q2 c=1: p50=7.66 p95=17.58 p99=21.66 ms, 115 tps
+  rep3 B q2 c=2: p50=9.11 p95=19.93 p99=26.94 ms, 196 tps
+  rep3 B q3 c=1: p50=0.84 p95=1.17 p99=2.05 ms, 1100 tps
+  rep3 B q3 c=2: p50=1.02 p95=1.36 p99=1.83 ms, 1898 tps
+  rep3 C q1 c=1: p50=132.96 p95=143.60 p99=150.83 ms, 7 tps
+  rep3 C q1 c=2: p50=132.86 p95=151.27 p99=174.82 ms, 15 tps
+  rep3 C q2 c=1: p50=5.26 p95=12.21 p99=21.55 ms, 170 tps
+  rep3 C q2 c=2: p50=4.10 p95=8.92 p99=12.35 ms, 413 tps
+  rep3 C q3 c=1: p50=43.18 p95=47.01 p99=49.55 ms, 22 tps
+  rep3 C q3 c=2: p50=44.79 p95=47.56 p99=66.00 ms, 44 tps
+  rep4 E q1 c=1: p50=5.89 p95=8.39 p99=10.62 ms, 170 tps
+  rep4 E q1 c=2: p50=3.98 p95=8.21 p99=11.15 ms, 421 tps
+  rep4 E q2 c=1: p50=5.10 p95=6.76 p99=9.07 ms, 201 tps
+  rep4 E q2 c=2: p50=4.08 p95=8.74 p99=12.21 ms, 417 tps
+  rep4 E q3 c=1: p50=1.28 p95=2.03 p99=3.63 ms, 690 tps
+  rep4 E q3 c=2: p50=1.44 p95=1.77 p99=2.55 ms, 1351 tps
+  rep4 A q1 c=1: p50=0.94 p95=1.05 p99=1.29 ms, 1047 tps
+  rep4 A q1 c=2: p50=1.09 p95=1.42 p99=1.96 ms, 1772 tps
+  rep4 A q2 c=1: p50=13.40 p95=21.59 p99=26.25 ms, 76 tps
+  rep4 A q2 c=2: p50=8.19 p95=22.93 p99=30.30 ms, 200 tps
+  rep4 A q3 c=1: p50=0.73 p95=0.93 p99=1.68 ms, 1275 tps
+  rep4 A q3 c=2: p50=0.88 p95=1.22 p99=1.59 ms, 2199 tps
+  rep4 B q1 c=1: p50=1.26 p95=1.38 p99=1.55 ms, 780 tps
+  rep4 B q1 c=2: p50=1.44 p95=1.75 p99=2.69 ms, 1353 tps
+  rep4 B q2 c=1: p50=9.81 p95=18.80 p99=23.68 ms, 96 tps
+  rep4 B q2 c=2: p50=8.42 p95=21.60 p99=28.62 ms, 201 tps
+  rep4 B q3 c=1: p50=0.85 p95=1.23 p99=2.09 ms, 1078 tps
+  rep4 B q3 c=2: p50=1.01 p95=1.30 p99=1.71 ms, 1947 tps
+  rep4 C q1 c=1: p50=132.10 p95=146.27 p99=159.73 ms, 7 tps
+  rep4 C q1 c=2: p50=137.60 p95=153.62 p99=182.09 ms, 14 tps
+  rep4 C q2 c=1: p50=5.24 p95=11.99 p99=20.15 ms, 176 tps
+  rep4 C q2 c=2: p50=4.12 p95=8.35 p99=11.48 ms, 421 tps
+  rep4 C q3 c=1: p50=43.67 p95=45.24 p99=50.07 ms, 22 tps
+  rep4 C q3 c=2: p50=45.31 p95=48.34 p99=64.11 ms, 44 tps
+  rep4 D q1 c=1: p50=1.32 p95=1.45 p99=1.75 ms, 743 tps
+  rep4 D q1 c=2: p50=1.52 p95=1.83 p99=2.49 ms, 1288 tps
+  rep4 D q2 c=1: p50=13.52 p95=21.24 p99=26.53 ms, 75 tps
+  rep4 D q2 c=2: p50=8.70 p95=24.88 p99=33.20 ms, 187 tps
+  rep4 D q3 c=1: p50=0.87 p95=1.25 p99=2.17 ms, 1054 tps
+  rep4 D q3 c=2: p50=1.00 p95=1.38 p99=1.95 ms, 1909 tps
+  rep5 A q1 c=1: p50=0.92 p95=1.01 p99=1.19 ms, 1076 tps
+  rep5 A q1 c=2: p50=1.12 p95=1.52 p99=2.04 ms, 1716 tps
+  rep5 A q2 c=1: p50=8.88 p95=18.73 p99=24.38 ms, 103 tps
+  rep5 A q2 c=2: p50=9.07 p95=22.08 p99=29.76 ms, 191 tps
+  rep5 A q3 c=1: p50=0.74 p95=1.06 p99=1.65 ms, 1258 tps
+  rep5 A q3 c=2: p50=0.87 p95=1.20 p99=1.56 ms, 2213 tps
+  rep5 B q1 c=1: p50=1.28 p95=1.40 p99=1.65 ms, 772 tps
+  rep5 B q1 c=2: p50=1.47 p95=1.80 p99=2.55 ms, 1327 tps
+  rep5 B q2 c=1: p50=7.92 p95=16.24 p99=21.33 ms, 114 tps
+  rep5 B q2 c=2: p50=9.98 p95=23.97 p99=30.90 ms, 174 tps
+  rep5 B q3 c=1: p50=0.87 p95=1.27 p99=2.29 ms, 1054 tps
+  rep5 B q3 c=2: p50=1.02 p95=1.35 p99=1.76 ms, 1913 tps
+  rep5 C q1 c=1: p50=132.53 p95=141.79 p99=153.11 ms, 7 tps
+  rep5 C q1 c=2: p50=134.33 p95=144.36 p99=177.79 ms, 15 tps
+  rep5 C q2 c=1: p50=5.51 p95=14.24 p99=23.00 ms, 161 tps
+  rep5 C q2 c=2: p50=4.11 p95=8.79 p99=12.28 ms, 414 tps
+  rep5 C q3 c=1: p50=43.10 p95=46.85 p99=63.11 ms, 22 tps
+  rep5 C q3 c=2: p50=43.95 p95=48.43 p99=64.80 ms, 44 tps
+  rep5 D q1 c=1: p50=1.32 p95=1.46 p99=1.91 ms, 743 tps
+  rep5 D q1 c=2: p50=1.50 p95=1.83 p99=2.61 ms, 1295 tps
+  rep5 D q2 c=1: p50=12.86 p95=20.37 p99=26.65 ms, 80 tps
+  rep5 D q2 c=2: p50=8.63 p95=22.65 p99=31.11 ms, 195 tps
+  rep5 D q3 c=1: p50=0.86 p95=1.06 p99=1.94 ms, 1091 tps
+  rep5 D q3 c=2: p50=1.01 p95=1.35 p99=1.76 ms, 1911 tps
+  rep5 E q1 c=1: p50=4.34 p95=7.68 p99=9.62 ms, 211 tps
+  rep5 E q1 c=2: p50=3.98 p95=6.78 p99=9.68 ms, 454 tps
+  rep5 E q2 c=1: p50=5.21 p95=7.41 p99=9.80 ms, 199 tps
+  rep5 E q2 c=2: p50=4.11 p95=9.67 p99=13.62 ms, 399 tps
+  rep5 E q3 c=1: p50=1.24 p95=1.99 p99=2.97 ms, 721 tps
+  rep5 E q3 c=2: p50=1.45 p95=1.77 p99=2.50 ms, 1344 tps
+
+wrote 90 rows to results/official/queries_summary.csv

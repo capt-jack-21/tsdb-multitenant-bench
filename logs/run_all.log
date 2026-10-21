@@ -1,0 +1,16 @@
+vCPU=2 clients=1,2 baseline writers=1,2,4 rls writers=2
+[2026-10-20T14:11:17Z] START smoke_queries
+[2026-10-20T14:17:34Z] DONE  smoke_queries
+[2026-10-20T14:17:34Z] START smoke_ingest_baseline
+[2026-10-20T14:17:52Z] DONE  smoke_ingest_baseline
+[2026-10-20T14:17:52Z] START smoke_ingest_rls
+[2026-10-20T14:18:27Z] DONE  smoke_ingest_rls
+[2026-10-20T14:18:27Z] START test2_queries
+[2026-10-20T17:36:01Z] DONE  test2_queries
+[2026-10-20T17:36:01Z] START test3_ingest_rls
+[2026-10-20T17:56:47Z] DONE  test3_ingest_rls
+[2026-10-20T17:56:47Z] START test1_ingest_baseline
+[2026-10-20T18:24:02Z] DONE  test1_ingest_baseline
+[2026-10-20T18:24:02Z] START prepared_subset
+[2026-10-20T18:36:29Z] DONE  prepared_subset
+[2026-10-20T18:36:29Z] ALL STEPS FINISHED

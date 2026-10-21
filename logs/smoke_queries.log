@@ -1,0 +1,159 @@
+PostgreSQL: PostgreSQL 16.15 on x86_64-pc-linux-musl | TimescaleDB: 2.30.2
+
+=== tenants=10 ===
+  loaded 200,979 rows, 38 MB (190.7 B/row) in 3.6s
+  plan A/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q1 c=1: p50=0.91 p95=1.02 p99=1.32 ms, 1071 tps
+  rep0 (warm-up) A q1 c=2: p50=1.06 p95=1.43 p99=1.91 ms, 1802 tps
+  plan A/q2: telemetry scans = Bitmap Heap Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_mission_time, _hyper_1_1_chunk_telemetry_tenant_device_time, _hyper_1_2_chunk_telemetry_mission_time, _hyper_1_2_chunk_telemetry_tenant_device_time, _hyper_1_3_chunk_telemetry_mission_time, _hyper_1_4_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_tenant_device_time, _hyper_1_6_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q2 c=1: p50=2.64 p95=3.04 p99=4.30 ms, 364 tps
+  rep0 (warm-up) A q2 c=2: p50=3.51 p95=4.71 p99=5.03 ms, 556 tps
+  plan A/q3: telemetry scans = Index Scan; chunks scanned = 1; indexes = _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q3 c=1: p50=0.71 p95=0.78 p99=1.01 ms, 1370 tps
+  rep0 (warm-up) A q3 c=2: p50=0.87 p95=1.27 p99=1.67 ms, 2197 tps
+  plan B/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_tenant_device_time, _hyper_1_2_chunk_telemetry_tenant_device_time, _hyper_1_3_chunk_telemetry_tenant_device_time, _hyper_1_4_chunk_telemetry_tenant_device_time, _hyper_1_5_chunk_telemetry_tenant_device_time, _hyper_1_6_chunk_telemetry_tenant_device_time, _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q1 c=1: p50=1.20 p95=1.28 p99=1.35 ms, 817 tps
+  rep0 (warm-up) B q1 c=2: p50=1.42 p95=1.79 p99=2.91 ms, 1352 tps
+  plan B/q2: telemetry scans = Bitmap Heap Scan, Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_mission_time, _hyper_1_1_chunk_telemetry_tenant_device_time, _hyper_1_2_chunk_telemetry_mission_time, _hyper_1_2_chunk_telemetry_tenant_device_time, _hyper_1_3_chunk_telemetry_mission_time, _hyper_1_4_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_tenant_device_time, _hyper_1_6_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q2 c=1: p50=2.78 p95=3.06 p99=3.34 ms, 355 tps
+  rep0 (warm-up) B q2 c=2: p50=3.77 p95=5.00 p99=7.40 ms, 514 tps
+  plan B/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q3 c=1: p50=0.81 p95=0.88 p99=1.22 ms, 1209 tps
+  rep0 (warm-up) B q3 c=2: p50=0.98 p95=1.17 p99=1.49 ms, 2021 tps
+  plan C/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_time_idx, _hyper_1_2_chunk_telemetry_time_idx, _hyper_1_3_chunk_telemetry_time_idx, _hyper_1_4_chunk_telemetry_time_idx, _hyper_1_5_chunk_telemetry_time_idx, _hyper_1_6_chunk_telemetry_time_idx, _hyper_1_7_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q1 c=1: p50=2.43 p95=2.71 p99=3.60 ms, 402 tps
+  rep0 (warm-up) C q1 c=2: p50=2.61 p95=2.95 p99=4.71 ms, 738 tps
+  plan C/q2: telemetry scans = Bitmap Heap Scan, Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_mission_time, _hyper_1_2_chunk_telemetry_mission_time, _hyper_1_3_chunk_telemetry_mission_time, _hyper_1_4_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_mission_time, _hyper_1_6_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_mission_time, memberships_pkey
+  rep0 (warm-up) C q2 c=1: p50=2.45 p95=2.93 p99=3.12 ms, 395 tps
+  rep0 (warm-up) C q2 c=2: p50=3.40 p95=4.82 p99=5.99 ms, 562 tps
+  plan C/q3: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 1; indexes = _hyper_1_7_chunk_telemetry_tenant_device_time, memberships_pkey
+  rep0 (warm-up) C q3 c=1: p50=1.49 p95=1.56 p99=1.65 ms, 669 tps
+  rep0 (warm-up) C q3 c=2: p50=1.71 p95=2.09 p99=3.01 ms, 1133 tps
+  plan D/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_tenant_device_time, _hyper_1_2_chunk_telemetry_tenant_device_time, _hyper_1_3_chunk_telemetry_tenant_device_time, _hyper_1_4_chunk_telemetry_tenant_device_time, _hyper_1_5_chunk_telemetry_tenant_device_time, _hyper_1_6_chunk_telemetry_tenant_device_time, _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q1 c=1: p50=1.28 p95=1.38 p99=1.48 ms, 765 tps
+  rep0 (warm-up) D q1 c=2: p50=1.49 p95=1.86 p99=2.69 ms, 1305 tps
+  plan D/q2: telemetry scans = Bitmap Heap Scan, Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_mission_time, _hyper_1_1_chunk_telemetry_tenant_device_time, _hyper_1_2_chunk_telemetry_mission_time, _hyper_1_2_chunk_telemetry_tenant_device_time, _hyper_1_3_chunk_telemetry_mission_time, _hyper_1_4_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_tenant_device_time, _hyper_1_6_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q2 c=1: p50=2.84 p95=3.13 p99=3.74 ms, 346 tps
+  rep0 (warm-up) D q2 c=2: p50=3.73 p95=4.78 p99=5.23 ms, 526 tps
+  plan D/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q3 c=1: p50=0.82 p95=0.86 p99=0.95 ms, 1204 tps
+  rep0 (warm-up) D q3 c=2: p50=0.97 p95=1.27 p99=1.74 ms, 1999 tps
+  plan E/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_time_idx, _hyper_1_2_chunk_telemetry_time_idx, _hyper_1_3_chunk_telemetry_time_idx, _hyper_1_4_chunk_telemetry_time_idx, _hyper_1_5_chunk_telemetry_time_idx, _hyper_1_6_chunk_telemetry_time_idx, _hyper_1_7_chunk_telemetry_time_idx
+  rep0 (warm-up) E q1 c=1: p50=2.02 p95=2.12 p99=2.69 ms, 486 tps
+  rep0 (warm-up) E q1 c=2: p50=2.30 p95=2.61 p99=3.72 ms, 850 tps
+  plan E/q2: telemetry scans = Bitmap Heap Scan, Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_1_1_chunk_telemetry_mission_time, _hyper_1_2_chunk_telemetry_mission_time, _hyper_1_3_chunk_telemetry_mission_time, _hyper_1_4_chunk_telemetry_mission_time, _hyper_1_5_chunk_telemetry_mission_time, _hyper_1_6_chunk_telemetry_mission_time, _hyper_1_7_chunk_telemetry_mission_time
+  rep0 (warm-up) E q2 c=1: p50=2.49 p95=2.87 p99=3.81 ms, 388 tps
+  rep0 (warm-up) E q2 c=2: p50=3.25 p95=4.67 p99=5.60 ms, 586 tps
+  plan E/q3: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 1; indexes = _hyper_1_7_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q3 c=1: p50=1.22 p95=1.34 p99=1.49 ms, 803 tps
+  rep0 (warm-up) E q3 c=2: p50=1.41 p95=1.84 p99=2.51 ms, 1364 tps
+  rep1 B q1 c=1: p50=1.22 p95=1.33 p99=1.54 ms, 806 tps
+  rep1 B q1 c=2: p50=1.43 p95=1.84 p99=2.53 ms, 1350 tps
+  rep1 B q2 c=1: p50=2.80 p95=3.08 p99=3.35 ms, 351 tps
+  rep1 B q2 c=2: p50=3.76 p95=5.23 p99=6.80 ms, 515 tps
+  rep1 B q3 c=1: p50=0.81 p95=0.87 p99=1.08 ms, 1224 tps
+  rep1 B q3 c=2: p50=0.99 p95=1.43 p99=1.89 ms, 1931 tps
+  rep1 C q1 c=1: p50=2.40 p95=2.54 p99=2.75 ms, 411 tps
+  rep1 C q1 c=2: p50=2.63 p95=2.95 p99=3.28 ms, 745 tps
+  rep1 C q2 c=1: p50=2.53 p95=3.08 p99=3.98 ms, 375 tps
+  rep1 C q2 c=2: p50=3.44 p95=4.76 p99=5.88 ms, 562 tps
+  rep1 C q3 c=1: p50=1.47 p95=1.54 p99=1.66 ms, 671 tps
+  rep1 C q3 c=2: p50=1.69 p95=2.03 p99=3.09 ms, 1147 tps
+  rep1 D q1 c=1: p50=1.25 p95=1.34 p99=1.41 ms, 786 tps
+  rep1 D q1 c=2: p50=1.44 p95=2.06 p99=2.81 ms, 1325 tps
+  rep1 D q2 c=1: p50=2.85 p95=3.18 p99=3.52 ms, 345 tps
+  rep1 D q2 c=2: p50=3.94 p95=5.18 p99=6.45 ms, 498 tps
+  rep1 D q3 c=1: p50=0.83 p95=0.90 p99=1.03 ms, 1193 tps
+  rep1 D q3 c=2: p50=1.00 p95=1.29 p99=1.65 ms, 1959 tps
+  rep1 E q1 c=1: p50=2.03 p95=2.15 p99=2.79 ms, 483 tps
+  rep1 E q1 c=2: p50=2.21 p95=2.47 p99=2.73 ms, 890 tps
+  rep1 E q2 c=1: p50=2.51 p95=3.53 p99=3.86 ms, 373 tps
+  rep1 E q2 c=2: p50=3.45 p95=4.88 p99=6.29 ms, 558 tps
+  rep1 E q3 c=1: p50=1.30 p95=1.57 p99=2.06 ms, 751 tps
+  rep1 E q3 c=2: p50=1.48 p95=1.85 p99=2.81 ms, 1307 tps
+  rep1 A q1 c=1: p50=0.90 p95=1.00 p99=1.07 ms, 1091 tps
+  rep1 A q1 c=2: p50=1.05 p95=1.38 p99=1.98 ms, 1842 tps
+  rep1 A q2 c=1: p50=2.51 p95=2.94 p99=3.38 ms, 383 tps
+  rep1 A q2 c=2: p50=3.43 p95=4.60 p99=5.20 ms, 567 tps
+  rep1 A q3 c=1: p50=0.71 p95=0.78 p99=0.84 ms, 1378 tps
+  rep1 A q3 c=2: p50=0.88 p95=1.23 p99=1.58 ms, 2193 tps
+
+=== tenants=20 ===
+  loaded 200,979 rows, 38 MB (189.1 B/row) in 3.6s
+  plan A/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_2_14_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q1 c=1: p50=0.89 p95=0.98 p99=1.21 ms, 1100 tps
+  rep0 (warm-up) A q1 c=2: p50=1.07 p95=1.37 p99=1.72 ms, 1832 tps
+  plan A/q2: telemetry scans = Bitmap Heap Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_mission_time, _hyper_2_10_chunk_telemetry_tenant_device_time, _hyper_2_11_chunk_telemetry_mission_time, _hyper_2_11_chunk_telemetry_tenant_device_time, _hyper_2_12_chunk_telemetry_mission_time, _hyper_2_12_chunk_telemetry_tenant_device_time, _hyper_2_13_chunk_telemetry_mission_time, _hyper_2_13_chunk_telemetry_tenant_device_time, _hyper_2_14_chunk_telemetry_mission_time, _hyper_2_14_chunk_telemetry_tenant_device_time, _hyper_2_8_chunk_telemetry_mission_time, _hyper_2_8_chunk_telemetry_tenant_device_time, _hyper_2_9_chunk_telemetry_mission_time, _hyper_2_9_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q2 c=1: p50=2.69 p95=3.22 p99=4.52 ms, 356 tps
+  rep0 (warm-up) A q2 c=2: p50=3.82 p95=4.81 p99=6.55 ms, 516 tps
+  plan A/q3: telemetry scans = Index Scan; chunks scanned = 1; indexes = _hyper_2_14_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) A q3 c=1: p50=0.67 p95=0.76 p99=0.84 ms, 1462 tps
+  rep0 (warm-up) A q3 c=2: p50=0.84 p95=1.32 p99=1.66 ms, 2247 tps
+  plan B/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_tenant_device_time, _hyper_2_11_chunk_telemetry_tenant_device_time, _hyper_2_12_chunk_telemetry_tenant_device_time, _hyper_2_13_chunk_telemetry_tenant_device_time, _hyper_2_14_chunk_telemetry_tenant_device_time, _hyper_2_8_chunk_telemetry_tenant_device_time, _hyper_2_9_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q1 c=1: p50=1.20 p95=1.27 p99=1.45 ms, 820 tps
+  rep0 (warm-up) B q1 c=2: p50=1.43 p95=1.83 p99=2.60 ms, 1341 tps
+  plan B/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_mission_time, _hyper_2_10_chunk_telemetry_tenant_device_time, _hyper_2_11_chunk_telemetry_mission_time, _hyper_2_11_chunk_telemetry_tenant_device_time, _hyper_2_12_chunk_telemetry_mission_time, _hyper_2_12_chunk_telemetry_tenant_device_time, _hyper_2_13_chunk_telemetry_mission_time, _hyper_2_13_chunk_telemetry_tenant_device_time, _hyper_2_14_chunk_telemetry_mission_time, _hyper_2_14_chunk_telemetry_tenant_device_time, _hyper_2_8_chunk_telemetry_mission_time, _hyper_2_8_chunk_telemetry_tenant_device_time, _hyper_2_9_chunk_telemetry_mission_time, _hyper_2_9_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q2 c=1: p50=2.84 p95=3.13 p99=3.74 ms, 345 tps
+  rep0 (warm-up) B q2 c=2: p50=3.96 p95=5.40 p99=6.53 ms, 490 tps
+  plan B/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_2_14_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) B q3 c=1: p50=0.83 p95=1.11 p99=1.26 ms, 1168 tps
+  rep0 (warm-up) B q3 c=2: p50=0.98 p95=1.21 p99=1.55 ms, 2017 tps
+  plan C/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_time_idx, _hyper_2_11_chunk_telemetry_time_idx, _hyper_2_12_chunk_telemetry_time_idx, _hyper_2_13_chunk_telemetry_time_idx, _hyper_2_14_chunk_telemetry_time_idx, _hyper_2_8_chunk_telemetry_time_idx, _hyper_2_9_chunk_telemetry_time_idx, memberships_pkey
+  rep0 (warm-up) C q1 c=1: p50=3.65 p95=3.81 p99=4.41 ms, 272 tps
+  rep0 (warm-up) C q1 c=2: p50=3.86 p95=4.18 p99=6.02 ms, 505 tps
+  plan C/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_mission_time, _hyper_2_11_chunk_telemetry_mission_time, _hyper_2_12_chunk_telemetry_mission_time, _hyper_2_13_chunk_telemetry_mission_time, _hyper_2_14_chunk_telemetry_mission_time, _hyper_2_8_chunk_telemetry_mission_time, _hyper_2_9_chunk_telemetry_mission_time, memberships_pkey
+  rep0 (warm-up) C q2 c=1: p50=2.50 p95=2.93 p99=3.13 ms, 381 tps
+  rep0 (warm-up) C q2 c=2: p50=3.60 p95=5.30 p99=6.84 ms, 528 tps
+  plan C/q3: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 1; indexes = _hyper_2_14_chunk_telemetry_tenant_device_time, memberships_pkey
+  rep0 (warm-up) C q3 c=1: p50=1.28 p95=1.34 p99=1.39 ms, 771 tps
+  rep0 (warm-up) C q3 c=2: p50=1.49 p95=1.85 p99=2.49 ms, 1305 tps
+  plan D/q1: telemetry scans = Custom Scan, Index Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_tenant_device_time, _hyper_2_11_chunk_telemetry_tenant_device_time, _hyper_2_12_chunk_telemetry_tenant_device_time, _hyper_2_13_chunk_telemetry_tenant_device_time, _hyper_2_14_chunk_telemetry_tenant_device_time, _hyper_2_8_chunk_telemetry_tenant_device_time, _hyper_2_9_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q1 c=1: p50=1.27 p95=1.43 p99=1.67 ms, 767 tps
+  rep0 (warm-up) D q1 c=2: p50=1.48 p95=1.80 p99=2.50 ms, 1321 tps
+  plan D/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_mission_time, _hyper_2_10_chunk_telemetry_tenant_device_time, _hyper_2_11_chunk_telemetry_mission_time, _hyper_2_11_chunk_telemetry_tenant_device_time, _hyper_2_12_chunk_telemetry_mission_time, _hyper_2_12_chunk_telemetry_tenant_device_time, _hyper_2_13_chunk_telemetry_mission_time, _hyper_2_13_chunk_telemetry_tenant_device_time, _hyper_2_14_chunk_telemetry_mission_time, _hyper_2_14_chunk_telemetry_tenant_device_time, _hyper_2_8_chunk_telemetry_mission_time, _hyper_2_8_chunk_telemetry_tenant_device_time, _hyper_2_9_chunk_telemetry_mission_time, _hyper_2_9_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q2 c=1: p50=2.96 p95=3.70 p99=4.37 ms, 326 tps
+  rep0 (warm-up) D q2 c=2: p50=4.05 p95=5.34 p99=8.01 ms, 477 tps
+  plan D/q3: telemetry scans = Custom Scan, Index Scan; chunks scanned = 1; indexes = _hyper_2_14_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) D q3 c=1: p50=0.80 p95=0.86 p99=0.95 ms, 1240 tps
+  rep0 (warm-up) D q3 c=2: p50=0.99 p95=1.33 p99=1.80 ms, 1970 tps
+  plan E/q1: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_tenant_device_time, _hyper_2_11_chunk_telemetry_tenant_device_time, _hyper_2_12_chunk_telemetry_tenant_device_time, _hyper_2_13_chunk_telemetry_tenant_device_time, _hyper_2_14_chunk_telemetry_tenant_device_time, _hyper_2_8_chunk_telemetry_tenant_device_time, _hyper_2_9_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q1 c=1: p50=2.35 p95=2.48 p99=2.94 ms, 420 tps
+  rep0 (warm-up) E q1 c=2: p50=2.61 p95=3.04 p99=4.54 ms, 751 tps
+  plan E/q2: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 7; indexes = _hyper_2_10_chunk_telemetry_mission_time, _hyper_2_11_chunk_telemetry_mission_time, _hyper_2_12_chunk_telemetry_mission_time, _hyper_2_13_chunk_telemetry_mission_time, _hyper_2_14_chunk_telemetry_mission_time, _hyper_2_8_chunk_telemetry_mission_time, _hyper_2_9_chunk_telemetry_mission_time
+  rep0 (warm-up) E q2 c=1: p50=2.66 p95=3.32 p99=3.98 ms, 360 tps
+  rep0 (warm-up) E q2 c=2: p50=3.57 p95=4.70 p99=5.20 ms, 545 tps
+  plan E/q3: telemetry scans = Bitmap Heap Scan, Custom Scan; chunks scanned = 1; indexes = _hyper_2_14_chunk_telemetry_tenant_device_time
+  rep0 (warm-up) E q3 c=1: p50=1.09 p95=1.16 p99=1.45 ms, 905 tps
+  rep0 (warm-up) E q3 c=2: p50=1.33 p95=2.13 p99=2.40 ms, 1427 tps
+  rep1 B q1 c=1: p50=1.26 p95=1.43 p99=1.81 ms, 774 tps
+  rep1 B q1 c=2: p50=1.38 p95=1.66 p99=2.39 ms, 1413 tps
+  rep1 B q2 c=1: p50=2.81 p95=3.06 p99=4.00 ms, 349 tps
+  rep1 B q2 c=2: p50=3.88 p95=5.23 p99=7.20 ms, 498 tps
+  rep1 B q3 c=1: p50=0.79 p95=0.85 p99=0.90 ms, 1249 tps
+  rep1 B q3 c=2: p50=0.99 p95=1.27 p99=1.81 ms, 1974 tps
+  rep1 C q1 c=1: p50=3.66 p95=3.89 p99=4.33 ms, 270 tps
+  rep1 C q1 c=2: p50=3.84 p95=4.29 p99=6.61 ms, 507 tps
+  rep1 C q2 c=1: p50=2.75 p95=3.54 p99=4.14 ms, 356 tps
+  rep1 C q2 c=2: p50=3.79 p95=4.57 p99=5.18 ms, 519 tps
+  rep1 C q3 c=1: p50=1.40 p95=1.49 p99=1.90 ms, 704 tps
+  rep1 C q3 c=2: p50=1.62 p95=2.17 p99=3.03 ms, 1185 tps
+  rep1 D q1 c=1: p50=1.33 p95=1.40 p99=1.42 ms, 744 tps
+  rep1 D q1 c=2: p50=1.50 p95=1.79 p99=2.76 ms, 1288 tps
+  rep1 D q2 c=1: p50=2.96 p95=3.27 p99=3.80 ms, 330 tps
+  rep1 D q2 c=2: p50=3.99 p95=5.20 p99=5.72 ms, 488 tps
+  rep1 D q3 c=1: p50=0.78 p95=0.85 p99=0.98 ms, 1260 tps
+  rep1 D q3 c=2: p50=0.96 p95=1.32 p99=1.65 ms, 2000 tps
+  rep1 E q1 c=1: p50=2.44 p95=2.84 p99=3.85 ms, 395 tps
+  rep1 E q1 c=2: p50=2.85 p95=3.21 p99=4.63 ms, 684 tps
+  rep1 E q2 c=1: p50=2.64 p95=3.06 p99=3.35 ms, 369 tps
+  rep1 E q2 c=2: p50=3.63 p95=4.91 p99=6.06 ms, 533 tps
+  rep1 E q3 c=1: p50=1.09 p95=1.18 p99=1.24 ms, 905 tps
+  rep1 E q3 c=2: p50=1.25 p95=1.50 p99=2.21 ms, 1559 tps
+  rep1 A q1 c=1: p50=0.89 p95=0.94 p99=1.07 ms, 1119 tps
+  rep1 A q1 c=2: p50=1.07 p95=1.26 p99=1.46 ms, 1867 tps
+  rep1 A q2 c=1: p50=2.78 p95=3.38 p99=3.54 ms, 351 tps
+  rep1 A q2 c=2: p50=3.83 p95=5.12 p99=5.79 ms, 511 tps
+  rep1 A q3 c=1: p50=0.69 p95=0.82 p99=1.05 ms, 1389 tps
+  rep1 A q3 c=2: p50=0.81 p95=1.15 p99=1.54 ms, 2362 tps
+
+wrote 60 rows to results/smoke/queries_summary.csv

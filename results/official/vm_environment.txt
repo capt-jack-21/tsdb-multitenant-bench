@@ -1,0 +1,14 @@
+image: timescale/timescaledb@sha256:6f139d56042989bd35f50ba5986e492cd32e35cc6778c50be2659add298dc09f
+kernel: Linux 7.0.0-22-generic x86_64
+os: Ubuntu 26.04 LTS
+pgbench: pgbench (PostgreSQL) 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
+python: Python 3.14.4
+docker: Docker version 29.1.3, build 29.1.3-0ubuntu4.1
+CPU(s):                                  2
+Model name:                              AMD EPYC 7C13 64-Core Processor
+Thread(s) per core:                      1
+Core(s) per socket:                      1
+               total        used        free      shared  buff/cache   available
+Mem:           7.7Gi       1.0Gi       3.2Gi        67Mi       3.9Gi       6.8Gi
+/dev/sda2        99G  4.9G   89G   6% /
+commit: 4473f22e89110659c8f2223ad97630f67f3e7e2b

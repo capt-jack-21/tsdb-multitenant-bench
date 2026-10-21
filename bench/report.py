@@ -59,12 +59,17 @@ def cell(row, metric, d=2):
     return f"{fmt(med, d)} ({fmt(lo, d)}-{fmt(hi, d)})"
 
 
-def pretty_size(v):
-    """pg_settings values like '163848kB' -> '160 MB' (shared_buffers is stored in 8 kB pages)."""
-    m = re.fullmatch(r"(\d+)kB", str(v or ""))
+def pretty_size(v, pages=False):
+    """Format a pg setting. New runs store human-readable values ('2GB') and pass through. Older runs
+    stored setting||unit, so shared_buffers 262144 (8 kB pages) became '2621448kB': pages=True undoes that."""
+    v = str(v or "")
+    m = re.fullmatch(r"(\d+)kB", v)
     if not m:
         return v
-    kb = int(m.group(1))
+    if pages and v.endswith("8kB") and len(v) > 3:
+        kb = int(v[:-3]) * 8
+    else:
+        kb = int(m.group(1))
     return f"{kb / 1048576:.1f} GB" if kb >= 1048576 else f"{kb / 1024:.0f} MB"
 
 
@@ -94,7 +99,7 @@ def section_environment(res):
                 ("Platform", env.get("platform")),
                 ("vCPUs (as seen by the OS)", env.get("cpu_count")),
                 ("RAM", f"{(env.get('mem_total_bytes') or 0) / 2**30:.1f} GiB"),
-                ("shared_buffers / effective_cache_size", f"{pretty_size(s.get('shared_buffers'))} / {pretty_size(s.get('effective_cache_size'))}"),
+                ("shared_buffers / effective_cache_size", f"{pretty_size(s.get('shared_buffers'), True)} / {pretty_size(s.get('effective_cache_size'), True)}"),
                 ("work_mem / max_wal_size", f"{pretty_size(s.get('work_mem'))} / {pretty_size(s.get('max_wal_size'))}"),
                 ("synchronous_commit / jit", f"{s.get('synchronous_commit')} / {s.get('jit')}"),
                 ("Run tag", env.get("run_tag")), ("Captured", env.get("captured_at"))]
@@ -362,7 +367,7 @@ def main():
         sys.exit(f"{res} not found")
     if (res / "plans").exists():
         subprocess.run([sys.executable, str(HERE / "summarize_plans.py"), "--results-dir", str(res)], check=False,
-                       stdout=subprocess.DEVNULL)
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)  # optional; needs psycopg
     rows = query_data(res)
     prep = Path(a.prepared_dir) if a.prepared_dir else None
     parts = ["# Benchmark report (generated)", "",
